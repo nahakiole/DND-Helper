@@ -61,10 +61,10 @@
           <input type="number" class="form-control"   ng-model="enemy.ap" style="width:50%;display:inline-block;">
           <button type="button" name="button" class="btn btn-default" ng-click="enemy.ap=enemy.ap-1" style="width:20%;display:inline-block;">-</button>
       </td>
-        <td>
+        <td width="30%">
           <label for="">Tags</label>
-          <tags-input ng-model="enemy.tags">
-                
+          <tags-input ng-model="enemy.tags" min-length="1">
+            <auto-complete source="getTags($query)" min-length="1"></auto-complete>
           </tags-input>
         </td>
         <td class="text-right">
