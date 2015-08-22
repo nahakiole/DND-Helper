@@ -62,15 +62,18 @@
     <h1 class="text-center">DND Dungeon Helper</h1>
 
     <table class="table">
+        <tr>
+            <th width="15%">Name</th>
+            <th width="20%">LP</th>
+            <th width="20%">AP</th>
+            <th width="20%">Tags</th>
+            <th width="22%">Aktion</th>
+        </tr>
         <tr data-ng-repeat="enemy in enemies track by $index">
-
             <td>
-                <label>Name</label>
                 <input type="text" class="form-control" data-ng-model="enemy.name">
             </td>
             <td>
-                <label>LP</label><br>
-
                 <div class="btn-group" role="group">
                     <button type="button" name="button" class="btn btn-default" data-ng-click="enemy.lp=enemy.lp+1">
                         +
@@ -82,8 +85,6 @@
                 </div>
             </td>
             <td>
-                <label>AP</label><br>
-
                 <div class="btn-group" role="group">
                     <button type="button" name="button" class="btn btn-default" data-ng-click="enemy.ap=enemy.ap+1">
                         +
@@ -94,14 +95,12 @@
                     </button>
                 </div>
             </td>
-            <td width="30%">
-                <label>Tags</label>
+            <td width="20%">
                 <tags-input data-ng-model="enemy.tags" min-length="1">
                     <auto-complete source="getTags($query)" min-length="1"></auto-complete>
                 </tags-input>
             </td>
             <td class="text-right button-actions" width="22%">
-                <label>Aktion</label><br>
                 <button type="button" name="button" class="btn" data-ng-click="toggleTag(enemy,'vergiftet')" data-ng-class="hasTag(enemy,'vergiftet') ? 'btn-success' : 'btn-default'">
                     <i class="fa fa-medkit"></i></button>
                 <button type="button" name="button" class="btn" data-ng-click="toggleTag(enemy,'feuer')" data-ng-class="hasTag(enemy,'feuer') ? 'btn-success' : 'btn-default'">
