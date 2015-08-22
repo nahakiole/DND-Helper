@@ -47,6 +47,7 @@
 
 <div class="container">
     <h1>DND Dungeon Helper</h1>
+
     <table class="table">
         <tr data-ng-repeat="enemy in enemies track by $index">
 
@@ -56,26 +57,29 @@
             </td>
             <td>
                 <label>LP</label><br>
+
                 <div class="btn-group" role="group">
-                <button type="button" name="button" class="btn btn-default" data-ng-click="enemy.lp=enemy.lp+1">
-                    +
-                </button>
-                <input type="number" class="form-control" data-ng-model="enemy.lp" >
-                <button type="button" name="button" class="btn btn-default" data-ng-click="enemy.lp=enemy.lp-1" >
-                    -
-                </button></div>
+                    <button type="button" name="button" class="btn btn-default" data-ng-click="enemy.lp=enemy.lp+1">
+                        +
+                    </button>
+                    <input type="number" class="form-control" data-ng-model="enemy.lp">
+                    <button type="button" name="button" class="btn btn-default" data-ng-click="enemy.lp=enemy.lp-1">
+                        -
+                    </button>
+                </div>
             </td>
             <td>
                 <label>AP</label><br>
+
                 <div class="btn-group" role="group">
-                <button type="button" name="button" class="btn btn-default" data-ng-click="enemy.ap=enemy.ap+1" >
-                    +
-                </button>
-                <input type="number" class="form-control" data-ng-model="enemy.ap">
-                <button type="button" name="button" class="btn btn-default" data-ng-click="enemy.ap=enemy.ap-1" >
-                    -
-                </button>
-                    </div>
+                    <button type="button" name="button" class="btn btn-default" data-ng-click="enemy.ap=enemy.ap+1">
+                        +
+                    </button>
+                    <input type="number" class="form-control" data-ng-model="enemy.ap">
+                    <button type="button" name="button" class="btn btn-default" data-ng-click="enemy.ap=enemy.ap-1">
+                        -
+                    </button>
+                </div>
             </td>
             <td width="30%">
                 <label>Tags</label>
@@ -85,24 +89,37 @@
             </td>
             <td class="text-right button-actions" width="22%">
                 <label>Aktion</label><br>
-                <button type="button" name="button" class="btn" data-ng-click="toggleTag(enemy,'vergiftet')" data-ng-class="hasTag(enemy,'vergiftet') ? 'btn-success' : 'btn-default'"><i class="fa fa-medkit"></i></button>
-                <button type="button" name="button" class="btn" data-ng-click="toggleTag(enemy,'feuer')" data-ng-class="hasTag(enemy,'feuer') ? 'btn-success' : 'btn-default'"><i class="fa fa-fire"></i></button>
-                <button type="button" name="button" class="btn" data-ng-click="toggleTag(enemy,'betäupt')" data-ng-class="hasTag(enemy,'betäupt') ? 'btn-success' : 'btn-default'"><i class="fa fa-bed"></i></button>
-                <button type="button" name="button" class="btn btn-danger" data-ng-click="instaKill($index)"><i class="fa fa-heart"></i></button>
+                <button type="button" name="button" class="btn" data-ng-click="toggleTag(enemy,'vergiftet')" data-ng-class="hasTag(enemy,'vergiftet') ? 'btn-success' : 'btn-default'">
+                    <i class="fa fa-medkit"></i></button>
+                <button type="button" name="button" class="btn" data-ng-click="toggleTag(enemy,'feuer')" data-ng-class="hasTag(enemy,'feuer') ? 'btn-success' : 'btn-default'">
+                    <i class="fa fa-fire"></i></button>
+                <button type="button" name="button" class="btn" data-ng-click="toggleTag(enemy,'betäupt')" data-ng-class="hasTag(enemy,'betäupt') ? 'btn-success' : 'btn-default'">
+                    <i class="fa fa-bed"></i></button>
+                <button type="button" name="button" class="btn btn-danger" data-ng-click="instaKill($index)">
+                    <i class="fa fa-heart"></i></button>
             </td>
         </tr>
     </table>
-    <div class="text-right">
+    <div class="static-navigation">
+        <div class="container">
+            <div class="row">
 
+                <div class="col-md-6">
       <span data-ng-repeat="enemyTyp in enemyTypes">
         <button type="button" name="button" class="btn btn-default" data-ng-click="addEnemy(enemyTyp.name)">
             + {{enemyTyp.name}}
         </button>
-      </span>
+      </span></div>
+                <div class="col-md-6 text-right">
+                    <button type="button" name="button" class="btn btn-default disabled"><i class="fa fa-cog"></i> Einstellungen
+                    </button>
+                    <button type="button" name="button" class="btn btn-primary">Nächste Runde</button>
+                </div>
+            </div>
+        </div>
 
-        <button type="button" name="button" class="btn btn-primary">Nächste Runde</button>
-        <button type="button" name="button" class="btn btn-default"><i class="fa fa-cog"></i></button>
     </div>
+
 </div>
 </div>
 </body>

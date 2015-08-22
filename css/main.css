@@ -375,6 +375,20 @@ tags-input[disabled] .tags .input{
 /* ==========================================================================
    Author's custom styles
    ========================================================================== */
+
+body {
+    padding-bottom: 75px;
+}
+
+.static-navigation {
+    position: fixed;
+    bottom: 0;
+    left:0;
+    width: 100%;
+    padding: 15px 0;
+    background: #efefef;
+}
+
 tags-input .tags .tag-item .remove-button{
     color: #fff;
 }
