@@ -23,6 +23,7 @@
         }
     </style>
     <link href='http://fonts.googleapis.com/css?family=Neuton' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/main.css">
 
     <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
@@ -46,7 +47,7 @@
 
 <div class="container">
     <h1>DND Dungeon Helper</h1>
-    <table class="table table-striped table-condensed">
+    <table class="table">
         <tr data-ng-repeat="enemy in enemies track by $index">
 
             <td>
@@ -82,10 +83,12 @@
                     <auto-complete source="getTags($query)" min-length="1"></auto-complete>
                 </tags-input>
             </td>
-            <td class="text-right">
+            <td class="text-right button-actions" width="22%">
                 <label>Aktion</label><br>
-                <button type="button" name="button" class="btn btn-danger btn-sm" data-ng-click="instaKill($index)">INSTAKILL
-                </button>
+                <button type="button" name="button" class="btn" data-ng-click="toggleTag(enemy,'vergiftet')" data-ng-class="hasTag(enemy,'vergiftet') ? 'btn-success' : 'btn-default'"><i class="fa fa-medkit"></i></button>
+                <button type="button" name="button" class="btn" data-ng-click="toggleTag(enemy,'feuer')" data-ng-class="hasTag(enemy,'feuer') ? 'btn-success' : 'btn-default'"><i class="fa fa-fire"></i></button>
+                <button type="button" name="button" class="btn" data-ng-click="toggleTag(enemy,'betäupt')" data-ng-class="hasTag(enemy,'betäupt') ? 'btn-success' : 'btn-default'"><i class="fa fa-bed"></i></button>
+                <button type="button" name="button" class="btn btn-danger" data-ng-click="instaKill($index)"><i class="fa fa-heart"></i></button>
             </td>
         </tr>
     </table>
@@ -93,11 +96,12 @@
 
       <span data-ng-repeat="enemyTyp in enemyTypes">
         <button type="button" name="button" class="btn btn-default" data-ng-click="addEnemy(enemyTyp.name)">
-            {{enemyTyp.name}} hinzufügen
+            + {{enemyTyp.name}}
         </button>
       </span>
 
         <button type="button" name="button" class="btn btn-primary">Nächste Runde</button>
+        <button type="button" name="button" class="btn btn-default"><i class="fa fa-cog"></i></button>
     </div>
 </div>
 </div>
