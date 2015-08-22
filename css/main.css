@@ -378,6 +378,7 @@ tags-input[disabled] .tags .input{
 
 body {
     padding-bottom: 75px;
+    padding-top: 15px;
 }
 
 .static-navigation {
@@ -387,6 +388,11 @@ body {
     width: 100%;
     padding: 15px 0;
     background: #efefef;
+}
+
+h1 {
+    font-size: 60px;
+    margin-top: 0;
 }
 
 tags-input .tags .tag-item .remove-button{
