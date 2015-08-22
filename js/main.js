@@ -7,13 +7,19 @@ dndApp.controller('tableController', function ($scope) {
             name: 'Spinne',
             lp: 9,
             ap: 10,
-            tags: ''
+            tags: []
         },
         {
             name: 'Ork',
             lp: 15,
             ap: 25,
-            tags: ''
+            tags: []
+        },
+        {
+            name: 'Troll',
+            lp: 15,
+            ap: 25,
+            tags: []
         }
     ];
 
@@ -33,6 +39,26 @@ dndApp.controller('tableController', function ($scope) {
         $scope.enemies.splice(enemy, 1);
     };
 
+    $scope.toggleTag = function(enemy, tag){
+        console.log(enemy);
+        for (var i = 0; i <  enemy.tags.length; i++){
+            if (enemy.tags[i].text == tag){
+                enemy.tags.splice(i, 1);
+                return;
+            }
+        }
+        enemy.tags.push({'text': tag});
+    };
+
+    $scope.hasTag = function(enemy, tag){
+        for (var i = 0; i <  enemy.tags.length; i++){
+            if (enemy.tags[i].text == tag){
+                return true;
+            }
+        }
+        return false;
+    };
+
     $scope.getTags = function (name) {
         var regexp = new RegExp(name, "gi");
         return $scope.tags.filter(
@@ -47,3 +73,22 @@ dndApp.controller('tableController', function ($scope) {
     }
 
 });
+
+function Enemy(name,lp,ap,tags){
+    this.name = name;
+    this.lp = lp;
+    this.ap = ap;
+    this.tags = tags;
+}
+
+Enemy.prototype.setLp = function(lp){
+    this.lp = lp;
+};
+
+Enemy.prototype.setAp = function(ap){
+    this.ap = ap;
+};
+
+Enemy.prototype.setAp = function(ap){
+    this.ap = ap;
+};
