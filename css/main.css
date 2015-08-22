@@ -7,3 +7,23 @@ tags-input .autocomplete,tags-input .tags{border-radius:4px}tags-input{box-shado
 tags-input .tags .tag-item .remove-button {
   color:#fff;
 }
+
+h1,h2,h3,h4,h5 {
+    font-family: 'Neuton', serif;
+}
+
+.btn-group .form-control {
+    border-radius: 0;
+    width: 50%;
+    display: inline-block;
+    float: left;
+}
+
+.btn-group .btn {
+    width: 10%;
+    display: inline-block;
+}
+
+.btn-group {
+    font-size: 0;
+}

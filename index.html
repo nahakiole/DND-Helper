@@ -1,87 +1,105 @@
 <!doctype html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang=""> <!--<![endif]-->
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>DND Dungeon helper</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+<!--[if lt IE 7]>
+<html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>
+<html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>
+<html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang=""> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>DND Dungeon helper</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
 
-        <link rel="stylesheet" href="css/bootstrap.min.css">
-        <style>
-            body {
-                padding-top: 50px;
-                padding-bottom: 20px;
-            }
-        </style>
-        <link rel="stylesheet" href="css/bootstrap-theme.min.css">
-          <link rel="stylesheet" href="css/bootstrap-theme.min.css">
-        <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <style>
+        body{
+            padding-top: 50px;
+            padding-bottom: 20px;
+        }
+    </style>
+    <link href='http://fonts.googleapis.com/css?family=Neuton' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="css/main.css">
 
-        <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')</script>
+    <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')</script>
 
-        <script src="js/vendor/bootstrap.min.js"></script>
+    <script src="js/vendor/bootstrap.min.js"></script>
 
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular.min.js"></script>
-        <script type="text/javascript" src="js/ng-tags-input.min.js">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular.min.js"></script>
+    <script type="text/javascript" src="js/ng-tags-input.min.js">
 
-        </script>
-        <script src="js/main.js"></script>
+    </script>
+    <script src="js/main.js"></script>
 
-    </head>
-    <body data-ng-app="dndApp" data-ng-controller="tableController">
-        <!--[if lt IE 8]>
-            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
+</head>
+<body data-ng-app="dndApp" data-ng-controller="tableController">
+<!--[if lt IE 8]>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
+    your browser</a> to improve your experience.</p>
+<![endif]-->
 
 <div class="container">
     <h1>DND Dungeon Helper</h1>
     <table class="table table-striped table-condensed">
-      <tr data-ng-repeat="enemy in enemies track by $index">
+        <tr data-ng-repeat="enemy in enemies track by $index">
 
-        <td>
-            <label>Name</label>
-          <input type="text" class="form-control" data-ng-model="enemy.name">
-        </td>
-        <td>
-          <label >LP</label><br>
-          <button type="button" name="button" class="btn btn-default" data-ng-click="enemy.lp=enemy.lp+1" style="width:20%;display:inline-block;">+</button>
-          <input type="number" class="form-control"   data-ng-model="enemy.lp" style="width:50%;display:inline-block;">
-          <button type="button" name="button" class="btn btn-default" data-ng-click="enemy.lp=enemy.lp-1" style="width:20%;display:inline-block;">-</button>
-        </td>
-        <td>
-          <label>AP</label><br>
-          <button type="button" name="button" class="btn btn-default" data-ng-click="enemy.ap=enemy.ap+1" style="width:20%;display:inline-block;">+</button>
-          <input type="number" class="form-control"   data-ng-model="enemy.ap" style="width:50%;display:inline-block;">
-          <button type="button" name="button" class="btn btn-default" data-ng-click="enemy.ap=enemy.ap-1" style="width:20%;display:inline-block;">-</button>
-      </td>
-        <td width="30%">
-          <label>Tags</label>
-          <tags-input data-ng-model="enemy.tags" min-length="1">
-            <auto-complete source="getTags($query)" min-length="1"></auto-complete>
-          </tags-input>
-        </td>
-        <td class="text-right">
-              <label>Aktion</label><br>
-          <button type="button" name="button" class="btn btn-danger" data-ng-click="instaKill($index)">INSTAKILL</button>
-        </td>
-      </tr>
+            <td>
+                <label>Name</label>
+                <input type="text" class="form-control" data-ng-model="enemy.name">
+            </td>
+            <td>
+                <label>LP</label><br>
+                <div class="btn-group" role="group">
+                <button type="button" name="button" class="btn btn-default" data-ng-click="enemy.lp=enemy.lp+1">
+                    +
+                </button>
+                <input type="number" class="form-control" data-ng-model="enemy.lp" >
+                <button type="button" name="button" class="btn btn-default" data-ng-click="enemy.lp=enemy.lp-1" >
+                    -
+                </button></div>
+            </td>
+            <td>
+                <label>AP</label><br>
+                <div class="btn-group" role="group">
+                <button type="button" name="button" class="btn btn-default" data-ng-click="enemy.ap=enemy.ap+1" >
+                    +
+                </button>
+                <input type="number" class="form-control" data-ng-model="enemy.ap">
+                <button type="button" name="button" class="btn btn-default" data-ng-click="enemy.ap=enemy.ap-1" >
+                    -
+                </button>
+                    </div>
+            </td>
+            <td width="30%">
+                <label>Tags</label>
+                <tags-input data-ng-model="enemy.tags" min-length="1">
+                    <auto-complete source="getTags($query)" min-length="1"></auto-complete>
+                </tags-input>
+            </td>
+            <td class="text-right">
+                <label>Aktion</label><br>
+                <button type="button" name="button" class="btn btn-danger btn-sm" data-ng-click="instaKill($index)">INSTAKILL
+                </button>
+            </td>
+        </tr>
     </table>
     <div class="text-right">
 
       <span data-ng-repeat="enemyTyp in enemyTypes">
-        <button type="button" name="button" class="btn btn-default" data-ng-click="addEnemy(enemyTyp.name)">{{enemyTyp.name}} hinzufügen</button>
+        <button type="button" name="button" class="btn btn-default" data-ng-click="addEnemy(enemyTyp.name)">
+            {{enemyTyp.name}} hinzufügen
+        </button>
       </span>
 
-    <button type="button" name="button" class="btn btn-primary">Nächste Runde</button>
-        </div>
+        <button type="button" name="button" class="btn btn-primary">Nächste Runde</button>
     </div>
-  </div>
-    </body>
+</div>
+</div>
+</body>
 </html>
