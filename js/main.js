@@ -47,7 +47,6 @@ dndApp.controller('tableController',[ '$scope','$modal', function ($scope,$modal
     };
 
     $scope.toggleTag = function(enemy, tag){
-        console.log(enemy);
         for (var i = 0; i <  enemy.tags.length; i++){
             if (enemy.tags[i].text == tag){
                 enemy.tags.splice(i, 1);
