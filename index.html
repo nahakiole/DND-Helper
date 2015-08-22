@@ -35,7 +35,7 @@
         <script src="js/main.js"></script>
 
     </head>
-    <body ng-app="dndApp" ng-controller="tableController">
+    <body data-ng-app="dndApp" data-ng-controller="tableController">
         <!--[if lt IE 8]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
@@ -43,40 +43,40 @@
 <div class="container">
     <h1>DND Dungeon Helper</h1>
     <table class="table">
-      <tr ng-repeat="enemy in enemies track by $index">
+      <tr data-ng-repeat="enemy in enemies track by $index">
 
         <td>
-            <label for="">Name</label>
-          <input type="text" class="form-control" ng-model="enemy.name">
+            <label>Name</label>
+          <input type="text" class="form-control" data-ng-model="enemy.name">
         </td>
         <td>
-          <label for="">LP</label><br>
-          <button type="button" name="button" class="btn btn-default" ng-click="enemy.lp=enemy.lp+1" style="width:20%;display:inline-block;">+</button>
-          <input type="number" class="form-control"   ng-model="enemy.lp" style="width:50%;display:inline-block;">
-          <button type="button" name="button" class="btn btn-default" ng-click="enemy.lp=enemy.lp-1" style="width:20%;display:inline-block;">-</button>
+          <label >LP</label><br>
+          <button type="button" name="button" class="btn btn-default" data-ng-click="enemy.lp=enemy.lp+1" style="width:20%;display:inline-block;">+</button>
+          <input type="number" class="form-control"   data-ng-model="enemy.lp" style="width:50%;display:inline-block;">
+          <button type="button" name="button" class="btn btn-default" data-ng-click="enemy.lp=enemy.lp-1" style="width:20%;display:inline-block;">-</button>
         </td>
         <td>
-          <label for="">AP</label><br>
-          <button type="button" name="button" class="btn btn-default" ng-click="enemy.ap=enemy.ap+1" style="width:20%;display:inline-block;">+</button>
-          <input type="number" class="form-control"   ng-model="enemy.ap" style="width:50%;display:inline-block;">
-          <button type="button" name="button" class="btn btn-default" ng-click="enemy.ap=enemy.ap-1" style="width:20%;display:inline-block;">-</button>
+          <label>AP</label><br>
+          <button type="button" name="button" class="btn btn-default" data-ng-click="enemy.ap=enemy.ap+1" style="width:20%;display:inline-block;">+</button>
+          <input type="number" class="form-control"   data-ng-model="enemy.ap" style="width:50%;display:inline-block;">
+          <button type="button" name="button" class="btn btn-default" data-ng-click="enemy.ap=enemy.ap-1" style="width:20%;display:inline-block;">-</button>
       </td>
         <td width="30%">
-          <label for="">Tags</label>
-          <tags-input ng-model="enemy.tags" min-length="1">
+          <label>Tags</label>
+          <tags-input data-ng-model="enemy.tags" min-length="1">
             <auto-complete source="getTags($query)" min-length="1"></auto-complete>
           </tags-input>
         </td>
         <td class="text-right">
-              <label for="">Aktion</label><br>
-          <button type="button" name="button" class="btn btn-danger" ng-click="instaKill($index)">INSTAKILL</button>
+              <label>Aktion</label><br>
+          <button type="button" name="button" class="btn btn-danger" data-ng-click="instaKill($index)">INSTAKILL</button>
         </td>
       </tr>
     </table>
     <div class="text-right">
 
-      <span ng-repeat="enemyTyp in enemyTypes">
-        <button type="button" name="button" class="btn btn-default" ng-click="addEnemy(enemyTyp.name)">{{enemyTyp.name}} hinzufügen</button>
+      <span data-ng-repeat="enemyTyp in enemyTypes">
+        <button type="button" name="button" class="btn btn-default" data-ng-click="addEnemy(enemyTyp.name)">{{enemyTyp.name}} hinzufügen</button>
       </span>
 
     <button type="button" name="button" class="btn btn-primary">Nächste Runde</button>
