@@ -33,13 +33,26 @@
     <script src="js/vendor/bootstrap.min.js"></script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular.min.js"></script>
-    <script type="text/javascript" src="js/ng-tags-input.min.js">
+    <script type="text/javascript" src="js/ng-tags-input.min.js"></script>
+    <script type="text/javascript" src="js/ui-bootstrap-tpls-0.13.3.min.js"></script>
 
-    </script>
+
     <script src="js/main.js"></script>
 
 </head>
 <body data-ng-app="dndApp" data-ng-controller="tableController">
+<script type="text/ng-template" id="settings.html">
+    <div class="modal-header">
+        <h3 class="modal-title">Einstellungen</h3>
+    </div>
+    <div class="modal-body">
+        Einstellungen wären hier :D
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" data-ng-click="ok()">Speichern</button>
+        <button class="btn btn-warning" type="button" data-ng-click="cancel()">Abbrechen</button>
+    </div>
+</script>
 <!--[if lt IE 8]>
 <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
     your browser</a> to improve your experience.</p>
@@ -111,7 +124,7 @@
         </button>
       </span></div>
                 <div class="col-md-6 text-right">
-                    <button type="button" name="button" class="btn btn-default disabled"><i class="fa fa-cog"></i> Einstellungen
+                    <button type="button" name="button" class="btn btn-default" data-ng-click="openSettings()"><i class="fa fa-cog"></i> Einstellungen
                     </button>
                     <button type="button" name="button" class="btn btn-primary">Nächste Runde</button>
                 </div>

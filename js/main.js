@@ -1,6 +1,6 @@
-var dndApp = angular.module('dndApp', ['ngTagsInput']);
+var dndApp = angular.module('dndApp', ['ngTagsInput', 'ui.bootstrap']);
 
-dndApp.controller('tableController', function ($scope) {
+dndApp.controller('tableController',[ '$scope','$modal', function ($scope,$modal) {
     $scope.enemies = [];
     $scope.enemyTypes = [
         {
@@ -39,6 +39,13 @@ dndApp.controller('tableController', function ($scope) {
         $scope.enemies.splice(enemy, 1);
     };
 
+    $scope.openSettings = function () {
+        var modalInstance = $modal.open({
+            templateUrl: 'settings.html',
+            controller: 'ModalInstanceCtrl'
+        });
+    };
+
     $scope.toggleTag = function(enemy, tag){
         console.log(enemy);
         for (var i = 0; i <  enemy.tags.length; i++){
@@ -72,7 +79,18 @@ dndApp.controller('tableController', function ($scope) {
             });
     }
 
-});
+}] );
+
+dndApp.controller('ModalInstanceCtrl', [ '$scope', '$modalInstance', function ($scope, $modalInstance) {
+
+    $scope.ok = function () {
+        $modalInstance.close();
+    };
+
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
+    };
+}]);
 
 function Enemy(name,lp,ap,tags){
     this.name = name;
