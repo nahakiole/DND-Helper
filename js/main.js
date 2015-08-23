@@ -4,47 +4,29 @@ dndApp.controller('tableController', ['$scope', '$modal', function ($scope, $mod
     $scope.enemies = [];
     $scope.round = 1;
     $scope.enemyTypes = [
-        {
-            name: 'Spinne',
-            lp: 9,
-            ap: 10,
-            tags: []
-        },
-        {
-            name: 'Ork',
-            lp: 15,
-            ap: 25,
-            tags: []
-        },
-        {
-            name: 'Troll',
-            lp: 15,
-            ap: 25,
-            tags: []
-        }
+        new Enemy("Spinne", 9, 10, []),
+        new Enemy("Ork", 15, 25, []),
+        new Enemy("Troll", 15, 25, [])
     ];
 
     $scope.tags = [
         {
             text: 'vergiftet',
-            roundCallBack: function(enemy){
-                var tag = $scope.getTag(enemy,'vergiftet');
-                if (tag.timeout == undefined){
+            roundCallBack: function (enemy) {
+                var tag = $scope.getTag(enemy, 'vergiftet');
+                if (tag.timeout == undefined) {
                     tag.timeout = 1;
                 }
-                if (tag.timeout == 3){
-                    $scope.removeTag(enemy,'vergiftet')
+                if (tag.timeout == 3) {
+                    $scope.removeTag(enemy, 'vergiftet')
                 }
                 tag.timeout++;
-                enemy.lp = enemy.lp - 2;
-                enemy.ap--;
+                enemy.setLp(enemy.lp - 2);
+                enemy.setAp(enemy.ap - 1);
             }
         },
         {
-            text: 'feuer',
-            roundCallBack: function(enemy){
-
-            }
+            text: 'feuer'
         },
         {
             text: 'betäubt'
@@ -52,9 +34,13 @@ dndApp.controller('tableController', ['$scope', '$modal', function ($scope, $mod
     ];
 
     $scope.addEnemy = function (name) {
-        $scope.enemies.push(JSON.parse(JSON.stringify($.grep($scope.enemyTypes, function (e) {
-            return e.name == name;
-        })[0])));
+        for (var i = 0; i < $scope.enemyTypes.length; i++) {
+            if ($scope.enemyTypes[i].name == name) {
+                $scope.enemies.push(
+                    $scope.enemyTypes[i].clone()
+                );
+            }
+        }
     };
 
     $scope.instaKill = function (enemy) {
@@ -69,12 +55,15 @@ dndApp.controller('tableController', ['$scope', '$modal', function ($scope, $mod
     $scope.nextRound = function () {
         $scope.round++;
         for (var i = 0; i < $scope.enemies.length; i++) {
-            for (var j = 0; j <  $scope.tags.length; j++) {
+            for (var j = 0; j < $scope.tags.length; j++) {
                 if ($scope.hasTag($scope.enemies[i], $scope.tags[j].text)) {
-                    if ($scope.tags[j].hasOwnProperty('roundCallBack')){
+                    if ($scope.tags[j].hasOwnProperty('roundCallBack')) {
                         $scope.tags[j].roundCallBack($scope.enemies[i]);
                     }
                 }
+            }
+            if ($scope.enemies[i].isDead()) {
+                $scope.enemies.splice(i, 1);
             }
         }
     };
@@ -123,6 +112,16 @@ dndApp.controller('tableController', ['$scope', '$modal', function ($scope, $mod
         return false;
     };
 
+    $scope.addTag = function (enemy, tag) {
+        for (var i = 0; i < enemy.tags.length; i++) {
+            if (enemy.tags[i].text == tag) {
+                return;
+            }
+        }
+        enemy.tags.push({text: tag});
+    };
+
+
     $scope.getTags = function (name) {
         var regexp = new RegExp(name, "gi");
         return $scope.tags.filter(
@@ -157,13 +156,34 @@ function Enemy(name, lp, ap, tags) {
 }
 
 Enemy.prototype.setLp = function (lp) {
+    console.log(this);
+    if (this.isDead()) {
+        $scope.enemies.splice(i, 1);
+    }
     this.lp = lp;
 };
 
 Enemy.prototype.setAp = function (ap) {
-    this.ap = ap;
+    this.ap = Math.max(ap, 0);
+    if (this.ap == 0){
+        this.addTag('betäubt')
+    }
 };
 
-Enemy.prototype.setAp = function (ap) {
-    this.ap = ap;
+
+Enemy.prototype.isDead = function () {
+    return this.lp <= 0;
+};
+
+Enemy.prototype.addTag = function (tag) {
+    for (var i = 0; i < this.tags.length; i++) {
+        if (this.tags[i].text == tag) {
+            return;
+        }
+    }
+    this.tags.push({text: tag});
+};
+
+Enemy.prototype.clone = function () {
+    return new Enemy(this.name, this.lp, this.ap, this.tags);
 };

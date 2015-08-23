@@ -75,22 +75,22 @@
             </td>
             <td>
                 <div class="btn-group" role="group">
-                    <button type="button" name="button" class="btn btn-default" data-ng-click="enemy.lp=enemy.lp+1">
+                    <button type="button" name="button" class="btn btn-default" data-ng-click="enemy.setLp(enemy.lp+1)">
                         +
                     </button>
                     <input type="number" class="form-control" data-ng-model="enemy.lp">
-                    <button type="button" name="button" class="btn btn-default" data-ng-click="enemy.lp=enemy.lp-1">
+                    <button type="button" name="button" class="btn btn-default" data-ng-click="enemy.setLp(enemy.lp-1)">
                         -
                     </button>
                 </div>
             </td>
             <td>
                 <div class="btn-group" role="group">
-                    <button type="button" name="button" class="btn btn-default" data-ng-click="enemy.ap=enemy.ap+1">
+                    <button type="button" name="button" class="btn btn-default" data-ng-click="enemy.setAp(enemy.ap+1)">
                         +
                     </button>
                     <input type="number" class="form-control" data-ng-model="enemy.ap">
-                    <button type="button" name="button" class="btn btn-default" data-ng-click="enemy.ap=enemy.ap-1">
+                    <button type="button" name="button" class="btn btn-default" data-ng-click="enemy.setAp(enemy.ap-1)">
                         -
                     </button>
                 </div>
@@ -133,9 +133,7 @@
                 </div>
             </div>
         </div>
-
     </div>
-
 </div>
 </div>
 </body>
