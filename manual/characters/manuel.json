@@ -1,0 +1,35 @@
+{
+    "name": "Manuel",
+    "abilities": [
+        "Giraffe",
+        "K\u00fcnstler (Passiv)",
+        "Schoggisucht (Passiv)",
+        "Pfadfinder (Passiv)"
+    ],
+    "lp": "24",
+    "ap": "18",
+    "skill": {
+        "strength": "65",
+        "athletic": "+1",
+        "dexterity": "82",
+        "acrobatics": "+1",
+        "stealth": "-2",
+        "sleightofhand": "+3",
+        "intelligence": "87",
+        "history": "-1",
+        "religion": "-2",
+        "nature": "+6",
+        "investigation": "+2",
+        "charisma": "73",
+        "intimidation": "-2",
+        "deception": "+4",
+        "performance": "0",
+        "wisdom": "68",
+        "insight": "-2",
+        "animalhandeling": "+5",
+        "survival": "+5",
+        "peopleskills": "+3",
+        "medicine": "+1",
+        "initiative": "54"
+    }
+}

@@ -1,0 +1,35 @@
+{
+    "name": "Efrain",
+    "abilities": [
+        "Spielleiter (Passiv)",
+        "Kung-Fu Kater (Passiv)",
+        "Nicht-Fleisch-Esser (Passiv)",
+        "Ninja Meerschweinchen Untertane"
+    ],
+    "lp": "22",
+    "ap": "20",
+    "skill": {
+        "strength": "75",
+        "athletic": "+2",
+        "dexterity": "55",
+        "acrobatics": "-3",
+        "stealth": "+2",
+        "sleightofhand": "-2",
+        "intelligence": "75",
+        "history": "+3",
+        "religion": "+2",
+        "nature": "0",
+        "investigation": "+3",
+        "charisma": "64",
+        "intimidation": "-4",
+        "deception": "+3",
+        "performance": "+3",
+        "wisdom": "80",
+        "insight": "-7",
+        "animalhandeling": "+5",
+        "survival": "+3",
+        "peopleskills": "0",
+        "medicine": "+1",
+        "initiative": "80"
+    }
+}

@@ -1,0 +1,35 @@
+{
+    "name": "Raphi",
+    "abilities": [
+        "Templer",
+        "Herz des Templers (Passiv)",
+        "Inevitable Doom (Passiv)",
+        "Der J\u00fcngere (Passiv)"
+    ],
+    "lp": "25",
+    "ap": "25",
+    "skill": {
+        "strength": "78",
+        "athletic": "+4",
+        "dexterity": "68",
+        "acrobatics": "+1",
+        "stealth": "-3",
+        "sleightofhand": "0",
+        "intelligence": "71",
+        "history": "+5",
+        "religion": "+3",
+        "nature": "-2",
+        "investigation": "-3",
+        "charisma": "91",
+        "intimidation": "0",
+        "deception": "0",
+        "performance": "+1",
+        "wisdom": "60",
+        "insight": "0",
+        "animalhandeling": "+3",
+        "survival": "0",
+        "peopleskills": "+2",
+        "medicine": "+5",
+        "initiative": "61"
+    }
+}

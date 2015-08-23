@@ -1,0 +1,35 @@
+{
+    "name": "Robin",
+    "abilities": [
+        "Zelt f\u00fcr Zwei Personen",
+        "Es geht auch kompliziert (Passiv)",
+        "\u00c4r hett Ivo immer verm\u00f6blet (Passiv)",
+        "Schiuder si f\u00fcr noobs (Passiv)"
+    ],
+    "lp": "24.5",
+    "ap": "18.5",
+    "skill": {
+        "strength": "69",
+        "athletic": "+2",
+        "dexterity": "76",
+        "acrobatics": "0",
+        "stealth": "+2",
+        "sleightofhand": "+4",
+        "intelligence": "68",
+        "history": "0",
+        "religion": "+1",
+        "nature": "-5",
+        "investigation": "+7",
+        "charisma": "59",
+        "intimidation": "+3",
+        "deception": "0",
+        "performance": "-4",
+        "wisdom": "72",
+        "insight": "+2",
+        "animalhandeling": "+2",
+        "survival": "-2",
+        "peopleskills": "+1",
+        "medicine": "+2",
+        "initiative": "85"
+    }
+}

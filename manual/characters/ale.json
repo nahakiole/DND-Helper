@@ -1,0 +1,35 @@
+{
+    "name": "Ale",
+    "abilities": [
+        "Die Frisur",
+        "Gute Frisur (Passiv)",
+        "Inevitable Doom (Passiv)",
+        "Der \u00c4ltere (Passiv)"
+    ],
+    "lp": "20",
+    "ap": "30",
+    "skill": {
+        "strength": "81",
+        "athletic": "+7",
+        "dexterity": "73",
+        "acrobatics": "+5",
+        "stealth": "0",
+        "sleightofhand": "0",
+        "intelligence": "84",
+        "history": "+3",
+        "religion": "+1",
+        "nature": "0",
+        "investigation": "-2",
+        "charisma": "70",
+        "intimidation": "-1",
+        "deception": "+2",
+        "performance": "+2",
+        "wisdom": "54",
+        "insight": "-1",
+        "animalhandeling": "-7",
+        "survival": "-1",
+        "peopleskills": "+3",
+        "medicine": "+2",
+        "initiative": "67"
+    }
+}
