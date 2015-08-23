@@ -61,6 +61,11 @@ dndApp.controller('tableController', ['$scope', '$modal', function ($scope, $mod
         $scope.enemies.splice(enemy, 1);
     };
 
+    $scope.reset = function (enemy) {
+        $scope.enemies = [];
+        $scope.round = 1;
+    };
+
     $scope.nextRound = function () {
         $scope.round++;
         for (var i = 0; i < $scope.enemies.length; i++) {
