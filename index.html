@@ -123,11 +123,13 @@
                   </span>
                 </div>
                 <div class="col-md-6 text-right">
+                    Runde {{ round }}
                     <button type="button" name="button" class="btn btn-default" data-ng-click="openSettings()">
                         <i class="fa fa-cog"></i> Einstellungen
                     </button>
                     <button type="button" name="button" class="btn btn-danger" data-ng-click="enemies = []">MEGAKILL</button>
-                    <button type="button" name="button" class="btn btn-primary">Nächste Runde</button>
+
+                    <button type="button" name="button" class="btn btn-primary" data-ng-click="nextRound()">Nächste Runde</button>
                 </div>
             </div>
         </div>

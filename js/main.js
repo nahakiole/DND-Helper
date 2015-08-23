@@ -1,7 +1,8 @@
 var dndApp = angular.module('dndApp', ['ngTagsInput', 'ui.bootstrap']);
 
-dndApp.controller('tableController',[ '$scope','$modal', function ($scope,$modal) {
+dndApp.controller('tableController', ['$scope', '$modal', function ($scope, $modal) {
     $scope.enemies = [];
+    $scope.round = 1;
     $scope.enemyTypes = [
         {
             name: 'Spinne',
@@ -24,9 +25,30 @@ dndApp.controller('tableController',[ '$scope','$modal', function ($scope,$modal
     ];
 
     $scope.tags = [
-        'vergiftet',
-        'feuer',
-        'betäubt'
+        {
+            text: 'vergiftet',
+            roundCallBack: function(enemy){
+                var tag = $scope.getTag(enemy,'vergiftet');
+                if (tag.timeout == undefined){
+                    tag.timeout = 1;
+                }
+                if (tag.timeout == 3){
+                    $scope.removeTag(enemy,'vergiftet')
+                }
+                tag.timeout++;
+                enemy.lp = enemy.lp - 2;
+                enemy.ap--;
+            }
+        },
+        {
+            text: 'feuer',
+            roundCallBack: function(enemy){
+
+            }
+        },
+        {
+            text: 'betäubt'
+        }
     ];
 
     $scope.addEnemy = function (name) {
@@ -39,6 +61,19 @@ dndApp.controller('tableController',[ '$scope','$modal', function ($scope,$modal
         $scope.enemies.splice(enemy, 1);
     };
 
+    $scope.nextRound = function () {
+        $scope.round++;
+        for (var i = 0; i < $scope.enemies.length; i++) {
+            for (var j = 0; j <  $scope.tags.length; j++) {
+                if ($scope.hasTag($scope.enemies[i], $scope.tags[j].text)) {
+                    if ($scope.tags[j].hasOwnProperty('roundCallBack')){
+                        $scope.tags[j].roundCallBack($scope.enemies[i]);
+                    }
+                }
+            }
+        }
+    };
+
     $scope.openSettings = function () {
         var modalInstance = $modal.open({
             templateUrl: 'settings.html',
@@ -46,9 +81,9 @@ dndApp.controller('tableController',[ '$scope','$modal', function ($scope,$modal
         });
     };
 
-    $scope.toggleTag = function(enemy, tag){
-        for (var i = 0; i <  enemy.tags.length; i++){
-            if (enemy.tags[i].text == tag){
+    $scope.toggleTag = function (enemy, tag) {
+        for (var i = 0; i < enemy.tags.length; i++) {
+            if (enemy.tags[i].text == tag) {
                 enemy.tags.splice(i, 1);
                 return;
             }
@@ -56,10 +91,28 @@ dndApp.controller('tableController',[ '$scope','$modal', function ($scope,$modal
         enemy.tags.push({'text': tag});
     };
 
-    $scope.hasTag = function(enemy, tag){
-        for (var i = 0; i <  enemy.tags.length; i++){
-            if (enemy.tags[i].text == tag){
+    $scope.removeTag = function (enemy, tag) {
+        for (var i = 0; i < enemy.tags.length; i++) {
+            if (enemy.tags[i].text == tag) {
+                enemy.tags.splice(i, 1);
+                return;
+            }
+        }
+    };
+
+    $scope.hasTag = function (enemy, tag) {
+        for (var i = 0; i < enemy.tags.length; i++) {
+            if (enemy.tags[i].text == tag) {
                 return true;
+            }
+        }
+        return false;
+    };
+
+    $scope.getTag = function (enemy, tag) {
+        for (var i = 0; i < enemy.tags.length; i++) {
+            if (enemy.tags[i].text == tag) {
+                return enemy.tags[i];
             }
         }
         return false;
@@ -69,7 +122,7 @@ dndApp.controller('tableController',[ '$scope','$modal', function ($scope,$modal
         var regexp = new RegExp(name, "gi");
         return $scope.tags.filter(
             function (tag) {
-                return tag.match(regexp);
+                return tag.text.match(regexp);
             }
         ).sort(function (a, b) {
                 if (a < b) return -1;
@@ -78,9 +131,9 @@ dndApp.controller('tableController',[ '$scope','$modal', function ($scope,$modal
             });
     }
 
-}] );
+}]);
 
-dndApp.controller('ModalInstanceCtrl', [ '$scope', '$modalInstance', function ($scope, $modalInstance) {
+dndApp.controller('ModalInstanceCtrl', ['$scope', '$modalInstance', function ($scope, $modalInstance) {
 
     $scope.ok = function () {
         $modalInstance.close();
@@ -91,21 +144,21 @@ dndApp.controller('ModalInstanceCtrl', [ '$scope', '$modalInstance', function ($
     };
 }]);
 
-function Enemy(name,lp,ap,tags){
+function Enemy(name, lp, ap, tags) {
     this.name = name;
     this.lp = lp;
     this.ap = ap;
     this.tags = tags;
 }
 
-Enemy.prototype.setLp = function(lp){
+Enemy.prototype.setLp = function (lp) {
     this.lp = lp;
 };
 
-Enemy.prototype.setAp = function(ap){
+Enemy.prototype.setAp = function (ap) {
     this.ap = ap;
 };
 
-Enemy.prototype.setAp = function(ap){
+Enemy.prototype.setAp = function (ap) {
     this.ap = ap;
 };
