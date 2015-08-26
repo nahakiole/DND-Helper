@@ -26,7 +26,10 @@ dndApp.controller('tableController', ['$scope', '$modal', function ($scope, $mod
             }
         },
         {
-            text: 'feuer'
+            text: 'feuer',
+            roundCallBack: function (enemy) {
+                enemy.setLp(enemy.lp - 2);
+            }
         },
         {
             text: 'betäubt'
@@ -44,7 +47,7 @@ dndApp.controller('tableController', ['$scope', '$modal', function ($scope, $mod
     };
 
     $scope.instaKill = function (enemy) {
-        $scope.enemies.splice(enemy, 1);
+        enemy.setLp(0);
     };
 
     $scope.reset = function (enemy) {
@@ -61,9 +64,6 @@ dndApp.controller('tableController', ['$scope', '$modal', function ($scope, $mod
                         $scope.tags[j].roundCallBack($scope.enemies[i]);
                     }
                 }
-            }
-            if ($scope.enemies[i].isDead()) {
-                $scope.enemies.splice(i, 1);
             }
         }
     };
@@ -156,16 +156,12 @@ function Enemy(name, lp, ap, tags) {
 }
 
 Enemy.prototype.setLp = function (lp) {
-    console.log(this);
-    if (this.isDead()) {
-        $scope.enemies.splice(i, 1);
-    }
     this.lp = lp;
 };
 
 Enemy.prototype.setAp = function (ap) {
     this.ap = Math.max(ap, 0);
-    if (this.ap == 0){
+    if (this.ap == 0) {
         this.addTag('betäubt')
     }
 };
