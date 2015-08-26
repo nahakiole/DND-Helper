@@ -4,7 +4,7 @@ dndApp.controller('tableController', ['$scope', '$modal', function ($scope, $mod
     $scope.enemies = [];
     $scope.round = 1;
     $scope.enemyTypes = [
-        new Enemy("Spinne", 9, 10, []),
+        new Enemy("Spinne", 9, 10, [{text:'test'}]),
         new Enemy("Ork", 15, 25, []),
         new Enemy("Troll", 15, 25, [])
     ];
@@ -26,7 +26,10 @@ dndApp.controller('tableController', ['$scope', '$modal', function ($scope, $mod
             }
         },
         {
-            text: 'feuer'
+            text: 'feuer',
+            roundCallBack: function (enemy) {
+                enemy.setLp(enemy.lp - 2);
+            }
         },
         {
             text: 'betäubt'
@@ -37,14 +40,14 @@ dndApp.controller('tableController', ['$scope', '$modal', function ($scope, $mod
         for (var i = 0; i < $scope.enemyTypes.length; i++) {
             if ($scope.enemyTypes[i].name == name) {
                 $scope.enemies.push(
-                    $scope.enemyTypes[i].clone()
+                    angular.copy($scope.enemyTypes[i])
                 );
             }
         }
     };
 
     $scope.instaKill = function (enemy) {
-        $scope.enemies.splice(enemy, 1);
+        enemy.setLp(0);
     };
 
     $scope.reset = function (enemy) {
@@ -62,9 +65,6 @@ dndApp.controller('tableController', ['$scope', '$modal', function ($scope, $mod
                     }
                 }
             }
-            if ($scope.enemies[i].isDead()) {
-                $scope.enemies.splice(i, 1);
-            }
         }
     };
 
@@ -76,13 +76,15 @@ dndApp.controller('tableController', ['$scope', '$modal', function ($scope, $mod
     };
 
     $scope.toggleTag = function (enemy, tag) {
+      console.log(enemy);
         for (var i = 0; i < enemy.tags.length; i++) {
             if (enemy.tags[i].text == tag) {
                 enemy.tags.splice(i, 1);
                 return;
             }
         }
-        enemy.tags.push({'text': tag});
+        console.log(enemy);
+        enemy.addTag(tag);
     };
 
     $scope.removeTag = function (enemy, tag) {
@@ -156,16 +158,12 @@ function Enemy(name, lp, ap, tags) {
 }
 
 Enemy.prototype.setLp = function (lp) {
-    console.log(this);
-    if (this.isDead()) {
-        $scope.enemies.splice(i, 1);
-    }
     this.lp = lp;
 };
 
 Enemy.prototype.setAp = function (ap) {
     this.ap = Math.max(ap, 0);
-    if (this.ap == 0){
+    if (this.ap == 0) {
         this.addTag('betäubt')
     }
 };
@@ -184,6 +182,6 @@ Enemy.prototype.addTag = function (tag) {
     this.tags.push({text: tag});
 };
 
-Enemy.prototype.clone = function () {
+Enemy.prototype.createNewEnemy = function () {
     return new Enemy(this.name, this.lp, this.ap, this.tags);
 };

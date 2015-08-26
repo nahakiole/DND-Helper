@@ -69,7 +69,7 @@
             <th width="20%">Tags</th>
             <th width="22%">Aktion</th>
         </tr>
-        <tr data-ng-repeat="enemy in enemies track by $index">
+        <tr data-ng-repeat="enemy in enemies" data-ng-class="enemy.isDead() ? 'danger' : ''">
             <td>
                 <input type="text" class="form-control" data-ng-model="enemy.name">
             </td>
@@ -107,7 +107,7 @@
                     <i class="fa fa-fire"></i></button>
                 <button type="button" name="button" class="btn" data-ng-click="toggleTag(enemy,'betäupt')" data-ng-class="hasTag(enemy,'betäupt') ? 'btn-success' : 'btn-default'">
                     <i class="fa fa-bed"></i></button>
-                <button type="button" name="button" class="btn btn-danger" data-ng-click="instaKill($index)">
+                <button type="button" name="button" class="btn btn-danger" data-ng-click="instaKill(enemy)">
                     <i class="fa fa-heart"></i></button>
             </td>
         </tr>
