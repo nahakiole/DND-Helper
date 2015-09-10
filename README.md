@@ -5,7 +5,7 @@
 
 ## Planned features
 
-- Remove lp and ap if monsters have specific statuses at the start of each round.
+- Soundboard #1
 
 ## Contributing
 
