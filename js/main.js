@@ -44,6 +44,7 @@ dndApp.controller('tableController', ['$scope', '$modal', function ($scope, $mod
 
     $scope.instaKill = function (enemy) {
         enemy.setLp(0);
+        enemy.setAp(0);
     };
 
     $scope.reset = function (enemy) {
