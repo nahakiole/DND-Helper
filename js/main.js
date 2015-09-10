@@ -3,11 +3,7 @@ var dndApp = angular.module('dndApp', ['ngTagsInput', 'ui.bootstrap']);
 dndApp.controller('tableController', ['$scope', '$modal', function ($scope, $modal) {
     $scope.enemies = [];
     $scope.round = 1;
-    $scope.enemyTypes = [
-        new Enemy("Spinne", 9, 10, [{text:'test'}]),
-        new Enemy("Ork", 15, 25, []),
-        new Enemy("Troll", 15, 25, [])
-    ];
+    $scope.enemyTypes = [];
 
     $scope.tags = [
         {
@@ -71,19 +67,28 @@ dndApp.controller('tableController', ['$scope', '$modal', function ($scope, $mod
     $scope.openSettings = function () {
         var modalInstance = $modal.open({
             templateUrl: 'settings.html',
-            controller: 'ModalInstanceCtrl'
+            controller: 'SettingsController',
+            resolve: {
+            enemyTypes: function () {
+                return $scope.enemyTypes;
+            }
+        }
+
+        });
+        modalInstance.result.then(function (enemyTypes) {
+            $scope.enemyTypes = enemyTypes;
+        }, function () {
         });
     };
+    $scope.openSettings();
 
     $scope.toggleTag = function (enemy, tag) {
-      console.log(enemy);
         for (var i = 0; i < enemy.tags.length; i++) {
             if (enemy.tags[i].text == tag) {
                 enemy.tags.splice(i, 1);
                 return;
             }
         }
-        console.log(enemy);
         enemy.addTag(tag);
     };
 
@@ -139,10 +144,54 @@ dndApp.controller('tableController', ['$scope', '$modal', function ($scope, $mod
 
 }]);
 
-dndApp.controller('ModalInstanceCtrl', ['$scope', '$modalInstance', function ($scope, $modalInstance) {
+dndApp.controller('SettingsController', ['$scope', '$modalInstance', 'enemyTypes', function ($scope, $modalInstance,enemyTypes) {
+
+    $scope.enemyTypes = [
+        new Enemy("Spinne", 9, 10, []),
+        new Enemy("Sarazene", 15, 10, []),
+        new Enemy("Ork", 15, 20, []),
+        new Enemy("Gobblin", 10, 10, []),
+        new Enemy("Untoter", 25, 0, []),
+        new Enemy("Kämpf", 40, 40, []),
+        new Enemy("Dreyan", 30, 30, []),
+        new Enemy("Riesenspinne", 60, 40, []),
+        new Enemy("Drache", 100, 100, []),
+        new Enemy("Krieger des Grafen", 15, 10, []),
+        new Enemy("Troll", 30, 20, [])
+    ];
+
+    $scope.activeEnemies = enemyTypes;
+
+    $scope.toggle = function(enemy){
+        if ($scope.isActive(enemy)){
+            $scope.remove(enemy);
+        }
+        else {
+            $scope.activeEnemies.push(enemy);
+        }
+    };
+
+    $scope.isActive = function(enemy){
+        var l =  $scope.activeEnemies.length;
+        for (var i = 0; i < l; i++){
+            if ($scope.activeEnemies[i].name == enemy.name){
+                return true;
+            }
+        }
+        return false;
+    };
+
+    $scope.remove = function(enemy){
+        var l =  $scope.activeEnemies.length;
+        for (var i = 0; i < l; i++){
+            if ($scope.activeEnemies[i].name == enemy.name){
+                $scope.activeEnemies.splice(i, 1);
+            }
+        }
+    };
 
     $scope.ok = function () {
-        $modalInstance.close();
+        $modalInstance.close( $scope.activeEnemies);
     };
 
     $scope.cancel = function () {

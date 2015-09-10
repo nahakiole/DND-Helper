@@ -422,3 +422,13 @@ h1, h2, h3, h4, h5{
 tags-input .tags{
     min-height: 46px;
 }
+
+.table-enemies {
+    max-height: calc(100vh - 400px);
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.table-enemies-header {
+    margin-bottom: 0;
+}

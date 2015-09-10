@@ -46,7 +46,27 @@
         <h3 class="modal-title">Einstellungen</h3>
     </div>
     <div class="modal-body">
-        Einstellungen wären hier :D
+            <table class="table table-striped table-responsive table-enemies-header">
+                <tr>
+                    <th>Name</th>
+                    <th class="text-right">Aktion</th>
+                </tr>
+            </table>
+
+        <div class="table-enemies">
+            <table class="table table-striped table-responsive ">
+                <tr data-ng-repeat="enemy in enemyTypes">
+                    <td>
+                        {{enemy.name}}
+                    </td>
+                    <td class="text-right">
+                        <button class="btn btn-primary btn-sm" type="button" data-ng-click="toggle(enemy)" data-ng-class="isActive(enemy) ? 'btn-danger' : ''">
+                            {{ isActive(enemy) ? 'Entfernen' : 'Hinzufügen' }}
+                        </button>
+                    </td>
+                </tr>
+            </table>
+        </div>
     </div>
     <div class="modal-footer">
         <button class="btn btn-primary" type="button" data-ng-click="ok()">Speichern</button>
@@ -128,8 +148,11 @@
                         <i class="fa fa-cog"></i> Einstellungen
                     </button>
                     <button type="button" name="button" class="btn btn-default" data-ng-click="reset()">Reset</button>
-                    <button type="button" name="button" class="btn btn-danger" data-ng-click="enemies = []">MEGAKILL</button>
-                    <button type="button" name="button" class="btn btn-primary" data-ng-click="nextRound()">Nächste Runde</button>
+                    <button type="button" name="button" class="btn btn-danger" data-ng-click="enemies = []">MEGAKILL
+                    </button>
+                    <button type="button" name="button" class="btn btn-primary" data-ng-click="nextRound()">Nächste
+                        Runde
+                    </button>
                 </div>
             </div>
         </div>
