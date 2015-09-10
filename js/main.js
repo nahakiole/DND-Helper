@@ -151,7 +151,7 @@ dndApp.controller('SettingsController', ['$scope', '$modalInstance', 'enemyTypes
         new Enemy("Spinne", 9, 10, []),
         new Enemy("Sarazene", 15, 10, []),
         new Enemy("Ork", 15, 20, []),
-        new Enemy("Gobblin", 10, 10, []),
+        new Enemy("Goblin", 10, 10, []),
         new Enemy("Untoter", 25, 0, []),
         new Enemy("Kämpf", 40, 40, []),
         new Enemy("Dreyan", 30, 30, []),
