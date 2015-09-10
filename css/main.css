@@ -432,3 +432,7 @@ tags-input .tags{
 .table-enemies-header {
     margin-bottom: 0;
 }
+
+.enemy-buttons button {
+    margin-bottom: 2px;
+}

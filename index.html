@@ -134,23 +134,22 @@
     <div class="static-navigation">
         <div class="container">
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-7 enemy-buttons">
                   <span data-ng-repeat="enemyTyp in enemyTypes">
-                    <button type="button" name="button" class="btn btn-default" data-ng-click="addEnemy(enemyTyp.name)">
-                        + {{enemyTyp.name}}
+                    <button type="button" name="button" class="btn btn-default btn-sm" data-ng-click="addEnemy(enemyTyp.name)">
+                        {{enemyTyp.name}}
                     </button>
                   </span>
                 </div>
-                <div class="col-md-8 text-right">
+                <div class="col-md-5 text-right">
                     Runde {{ round }}
                     <button type="button" name="button" class="btn btn-default" data-ng-click="openSettings()">
-                        <i class="fa fa-cog"></i> Einstellungen
+                        <i class="fa fa-cog"></i>
                     </button>
-                    <button type="button" name="button" class="btn btn-default" data-ng-click="reset()">Reset</button>
-                    <button type="button" name="button" class="btn btn-danger" data-ng-click="enemies = []">MEGAKILL
+                    <button type="button" name="button" class="btn btn-default" data-ng-click="reset()"><i class="fa fa-trash-o"></i></button>
+                    <button type="button" name="button" class="btn btn-danger" data-ng-click="enemies = []"><i class="fa fa-bullseye"></i>
                     </button>
-                    <button type="button" name="button" class="btn btn-primary" data-ng-click="nextRound()">Nächste
-                        Runde
+                    <button type="button" name="button" class="btn btn-primary" data-ng-click="nextRound()">Runde+
                     </button>
                 </div>
             </div>
