@@ -24,6 +24,14 @@ dndApp.controller('tableController', ['$scope', '$modal', function ($scope, $mod
         {
             text: 'feuer',
             roundCallBack: function (enemy) {
+                var tag = $scope.getTag(enemy, 'feuer');
+                if (tag.timeout == undefined) {
+                    tag.timeout = 1;
+                }
+                if (tag.timeout == 3) {
+                    $scope.removeTag(enemy, 'feuer')
+                }
+                tag.timeout++;
                 enemy.setLp(enemy.lp - 2);
             }
         },
