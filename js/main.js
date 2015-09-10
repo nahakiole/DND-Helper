@@ -70,10 +70,10 @@ dndApp.controller('tableController', ['$scope', '$modal', function ($scope, $mod
             templateUrl: 'settings.html',
             controller: 'SettingsController',
             resolve: {
-            enemyTypes: function () {
-                return $scope.enemyTypes;
+                enemyTypes: function () {
+                    return $scope.enemyTypes;
+                }
             }
-        }
 
         });
         modalInstance.result.then(function (enemyTypes) {
@@ -145,7 +145,7 @@ dndApp.controller('tableController', ['$scope', '$modal', function ($scope, $mod
 
 }]);
 
-dndApp.controller('SettingsController', ['$scope', '$modalInstance', 'enemyTypes', function ($scope, $modalInstance,enemyTypes) {
+dndApp.controller('SettingsController', ['$scope', '$modalInstance', 'enemyTypes', function ($scope, $modalInstance, enemyTypes) {
 
     $scope.enemyTypes = [
         new Enemy("Spinne", 9, 10, []),
@@ -163,8 +163,8 @@ dndApp.controller('SettingsController', ['$scope', '$modalInstance', 'enemyTypes
 
     $scope.activeEnemies = enemyTypes;
 
-    $scope.toggle = function(enemy){
-        if ($scope.isActive(enemy)){
+    $scope.toggle = function (enemy) {
+        if ($scope.isActive(enemy)) {
             $scope.remove(enemy);
         }
         else {
@@ -172,27 +172,27 @@ dndApp.controller('SettingsController', ['$scope', '$modalInstance', 'enemyTypes
         }
     };
 
-    $scope.isActive = function(enemy){
-        var l =  $scope.activeEnemies.length;
-        for (var i = 0; i < l; i++){
-            if ($scope.activeEnemies[i].name == enemy.name){
+    $scope.isActive = function (enemy) {
+        var l = $scope.activeEnemies.length;
+        for (var i = 0; i < l; i++) {
+            if ($scope.activeEnemies[i].name == enemy.name) {
                 return true;
             }
         }
         return false;
     };
 
-    $scope.remove = function(enemy){
-        var l =  $scope.activeEnemies.length;
-        for (var i = 0; i < l; i++){
-            if ($scope.activeEnemies[i].name == enemy.name){
+    $scope.remove = function (enemy) {
+        var l = $scope.activeEnemies.length;
+        for (var i = 0; i < l; i++) {
+            if ($scope.activeEnemies[i].name == enemy.name) {
                 $scope.activeEnemies.splice(i, 1);
             }
         }
     };
 
     $scope.ok = function () {
-        $modalInstance.close( $scope.activeEnemies);
+        $modalInstance.close($scope.activeEnemies);
     };
 
     $scope.cancel = function () {
@@ -213,9 +213,6 @@ Enemy.prototype.setLp = function (lp) {
 
 Enemy.prototype.setAp = function (ap) {
     this.ap = Math.max(ap, 0);
-    if (this.ap == 0) {
-        this.addTag('betäubt')
-    }
 };
 
 
