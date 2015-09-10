@@ -1,3 +1,7 @@
+window.addEventListener('load', function () {
+    FastClick.attach(document.body);
+}, false);
+
 var dndApp = angular.module('dndApp', ['ngTagsInput', 'ui.bootstrap']);
 
 dndApp.controller('tableController', ['$scope', '$modal', function ($scope, $modal) {
