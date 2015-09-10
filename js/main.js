@@ -36,7 +36,17 @@ dndApp.controller('tableController', ['$scope', '$modal', function ($scope, $mod
             }
         },
         {
-            text: 'betäubt'
+            text: 'betäubt',
+            roundCallBack: function (enemy) {
+                var tag = $scope.getTag(enemy, 'betäubt');
+                if (tag.timeout == undefined) {
+                    tag.timeout = 1;
+                }
+                if (tag.timeout == 2) {
+                    $scope.removeTag(enemy, 'betäubt')
+                }
+                tag.timeout++;
+            }
         }
     ];
 
