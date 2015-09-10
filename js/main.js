@@ -231,7 +231,7 @@ function Enemy(name, lp, ap, tags) {
 }
 
 Enemy.prototype.setLp = function (lp) {
-    this.lp = lp;
+    this.lp = Math.max(lp, 0);
 };
 
 Enemy.prototype.setAp = function (ap) {
