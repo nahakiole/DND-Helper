@@ -21,7 +21,7 @@ dndApp.controller('tableController', ['$scope', '$modal', function ($scope, $mod
                     $scope.removeTag(enemy, 'vergiftet')
                 }
                 tag.timeout++;
-                enemy.setLp(enemy.lp - 2);
+                enemy.setLp(enemy.lp - 1);
                 enemy.setAp(enemy.ap - 1);
             }
         },
