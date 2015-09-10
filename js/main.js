@@ -48,6 +48,7 @@ dndApp.controller('tableController', ['$scope', '$modal', function ($scope, $mod
     };
 
     $scope.reset = function (enemy) {
+        $scope.enemyTypes = [];
         $scope.enemies = [];
         $scope.round = 1;
     };
@@ -175,7 +176,7 @@ dndApp.controller('SettingsController', ['$scope', '$modalInstance', 'enemyTypes
     $scope.isActive = function (enemy) {
         var l = $scope.activeEnemies.length;
         for (var i = 0; i < l; i++) {
-            if ($scope.activeEnemies[i].name == enemy.name) {
+            if ($scope.activeEnemies[i].hasOwnProperty('name') && $scope.activeEnemies[i].name == enemy.name) {
                 return true;
             }
         }
@@ -185,7 +186,7 @@ dndApp.controller('SettingsController', ['$scope', '$modalInstance', 'enemyTypes
     $scope.remove = function (enemy) {
         var l = $scope.activeEnemies.length;
         for (var i = 0; i < l; i++) {
-            if ($scope.activeEnemies[i].name == enemy.name) {
+            if ($scope.activeEnemies[i].hasOwnProperty('name') && $scope.activeEnemies[i].name == enemy.name) {
                 $scope.activeEnemies.splice(i, 1);
             }
         }
