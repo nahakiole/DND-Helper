@@ -181,6 +181,7 @@ dndApp.controller('SettingsController', ['$scope', '$modalInstance', 'enemyTypes
         new Enemy("Riesenspinne", 60, 40, []),
         new Enemy("Drache", 100, 100, []),
         new Enemy("Krieger des Grafen", 15, 10, []),
+        new Enemy("Golem", 30, 0, []),
         new Enemy("Troll", 30, 20, [])
     ];
 
