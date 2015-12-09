@@ -177,7 +177,7 @@ dndApp.controller('SettingsController', ['$scope', '$modalInstance', 'enemyTypes
         new Enemy("Kämpf", 40, 40, [], "5+2w4"),
         new Enemy("Dreyan", 30, 30, [], "3w4"),
         new Enemy("Riesenspinne", 60, 40, [], "3+1w8"),
-        new Enemy("Drache", 100, 100, [], "-") ,
+        new Enemy("Drache", 150, 100, [], "-") ,
         new Enemy("Krieger des Grafen", 15, 10, [], "2+1w6"),
         new Enemy("Golem", 30, 0, [], "2*(2+1w6)"),
         new Enemy("Troll", 30, 20, [], "2+2w6")
