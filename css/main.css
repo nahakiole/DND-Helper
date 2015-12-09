@@ -436,3 +436,25 @@ tags-input .tags{
 .enemy-buttons button {
     margin-bottom: 2px;
 }
+
+.enemyHelper {
+    position: absolute;
+    bottom: 40px;
+    left: 0;
+    background: #fff;
+    padding: 15px;
+    border: 1px solid;
+    border-radius: 5px;
+    display: none;
+    width: 150px;
+}
+
+.enemyList button:hover+.enemyHelper {
+    display: block;
+}
+
+.enemyList {
+    margin-right:5px;
+    position: relative;
+    display: inline-block;
+}

@@ -1,6 +1,4 @@
-window.addEventListener('load', function () {
-    FastClick.attach(document.body);
-}, false);
+
 
 var dndApp = angular.module('dndApp', ['ngTagsInput', 'ui.bootstrap']);
 
@@ -171,18 +169,18 @@ dndApp.controller('tableController', ['$scope', '$modal', function ($scope, $mod
 dndApp.controller('SettingsController', ['$scope', '$modalInstance', 'enemyTypes', function ($scope, $modalInstance, enemyTypes) {
 
     $scope.enemyTypes = [
-        new Enemy("Spinne", 9, 10, []),
-        new Enemy("Sarazene", 15, 10, []),
-        new Enemy("Ork", 15, 20, []),
-        new Enemy("Goblin", 10, 10, []),
-        new Enemy("Untoter", 25, 0, []),
-        new Enemy("Kämpf", 40, 40, []),
-        new Enemy("Dreyan", 30, 30, []),
-        new Enemy("Riesenspinne", 60, 40, []),
-        new Enemy("Drache", 100, 100, []),
-        new Enemy("Krieger des Grafen", 15, 10, []),
-        new Enemy("Golem", 30, 0, []),
-        new Enemy("Troll", 30, 20, [])
+        new Enemy("Spinne", 9, 10, [],"1w6"),
+        new Enemy("Sarazene", 15, 10, [],"2+1w6"),
+        new Enemy("Ork", 15, 20, [], "1+1w8"),
+        new Enemy("Goblin", 10, 10, [], "1+1w4"),
+        new Enemy("Untoter", 25, 0, [], "2+1w4"),
+        new Enemy("Kämpf", 40, 40, [], "5+2w4"),
+        new Enemy("Dreyan", 30, 30, [], "3w4"),
+        new Enemy("Riesenspinne", 60, 40, [], "3+1w8"),
+        new Enemy("Drache", 100, 100, [], "-") ,
+        new Enemy("Krieger des Grafen", 15, 10, [], "2+1w6"),
+        new Enemy("Golem", 30, 0, [], "2*(2+1w6)"),
+        new Enemy("Troll", 30, 20, [], "2+2w6")
     ];
 
     $scope.activeEnemies = enemyTypes;
@@ -224,11 +222,12 @@ dndApp.controller('SettingsController', ['$scope', '$modalInstance', 'enemyTypes
     };
 }]);
 
-function Enemy(name, lp, ap, tags) {
+function Enemy(name, lp, ap, tags, damage) {
     this.name = name;
     this.lp = lp;
     this.ap = ap;
     this.tags = tags;
+    this.damage = damage;
 }
 
 Enemy.prototype.setLp = function (lp) {
