@@ -162,7 +162,16 @@ dndApp.controller('tableController', ['$scope', '$modal', function ($scope, $mod
                 if (a > b) return 1;
                 return 0;
             });
-    }
+    };
+
+    $scope.remove = function (enemy) {
+        var l = $scope.enemies.length;
+        for (var i = 0; i < l; i++) {
+            if ($scope.enemies[i] && $scope.enemies[i].hasOwnProperty('$$hashKey') && $scope.enemies[i].$$hashKey == enemy.$$hashKey) {
+                $scope.enemies.splice(i, 1);
+            }
+        }
+    };
 
 }]);
 

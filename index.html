@@ -120,8 +120,8 @@
             <th width="15%">Name</th>
             <th width="20%">LP</th>
             <th width="20%">AP</th>
-            <th width="20%">Tags</th>
-            <th width="22%">Aktion</th>
+            <th width="15%">Tags</th>
+            <th width="30%">Aktion</th>
         </tr>
         <tr data-ng-repeat="enemy in enemies" data-ng-class="enemy.isDead() ? 'danger' : ''">
             <td>
@@ -149,12 +149,12 @@
                     </button>
                 </div>
             </td>
-            <td width="20%">
+            <td width="15%">
                 <tags-input data-ng-model="enemy.tags" min-length="1">
                     <auto-complete source="getTags($query)" min-length="1"></auto-complete>
                 </tags-input>
             </td>
-            <td class="text-right button-actions" width="22%">
+            <td class="text-right button-actions" width="30%">
                 <button type="button" name="button" class="btn" data-ng-click="toggleTag(enemy,'vergiftet')" data-ng-class="hasTag(enemy,'vergiftet') ? 'btn-success' : 'btn-default'">
                     <i class="fa fa-medkit"></i></button>
                 <button type="button" name="button" class="btn" data-ng-click="toggleTag(enemy,'feuer')" data-ng-class="hasTag(enemy,'feuer') ? 'btn-success' : 'btn-default'">
@@ -163,6 +163,10 @@
                     <i class="fa fa-bed"></i></button>
                 <button type="button" name="button" class="btn btn-danger" data-ng-click="instaKill(enemy)">
                     <i class="fa fa-heart"></i></button>
+
+                <button type="button" name="button" class="btn btn-danger" data-ng-click="remove(enemy)">
+                    <i class="fa fa-times"></i></button>
+
             </td>
         </tr>
     </table>
