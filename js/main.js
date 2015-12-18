@@ -104,6 +104,17 @@ dndApp.controller('tableController', ['$scope', '$modal', function ($scope, $mod
     };
     $scope.openSettings();
 
+    $scope.openSound = function () {
+        var modalInstance = $modal.open({
+            templateUrl: 'sound.html',
+            controller: 'SoundBoardController'
+
+        });
+        modalInstance.result.then(function (enemyTypes) {
+        }, function () {
+        });
+    };
+
     $scope.toggleTag = function (enemy, tag) {
         for (var i = 0; i < enemy.tags.length; i++) {
             if (enemy.tags[i].text == tag) {
@@ -174,6 +185,46 @@ dndApp.controller('tableController', ['$scope', '$modal', function ($scope, $mod
     };
 
 }]);
+
+dndApp.controller('SoundBoardController', ['$scope', 'SoundService', function($scope,SoundService){
+    $scope.SoundService = SoundService;
+}]);
+
+dndApp.factory('SoundService', function() {
+    var sounds = [
+        {
+            title: 'Roaahrr',
+            src:'roar.wav',
+            loop: false
+        },
+        {
+            title: 'Medival',
+            src:'medival.wav',
+            loop: true
+        }
+    ];
+    var audio = {};
+    angular.forEach(sounds,function(sound){
+        var audioelement = new Audio('sounds/'+sound.src);
+        audioelement.loop = sound.loop;
+        audio[sound.src] = audioelement;
+    });
+    return {
+        sounds:sounds,
+        play: playSound,
+        stop: stopSound
+    };
+
+    function playSound(sound){
+        audio[sound].pause();
+        audio[sound].currentTime = 0;
+        audio[sound].play();
+    }
+
+    function stopSound(sound){
+        audio[sound].pause();
+    }
+});
 
 dndApp.controller('SettingsController', ['$scope', '$modalInstance', 'enemyTypes', function ($scope, $modalInstance, enemyTypes) {
 
