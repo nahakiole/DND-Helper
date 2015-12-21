@@ -107,7 +107,8 @@ dndApp.controller('tableController', ['$scope', '$modal', function ($scope, $mod
     $scope.openSound = function () {
         var modalInstance = $modal.open({
             templateUrl: 'sound.html',
-            controller: 'SoundBoardController'
+            controller: 'SoundBoardController',
+            size: 'lg'
 
         });
         modalInstance.result.then(function (enemyTypes) {
@@ -193,11 +194,13 @@ dndApp.controller('SoundBoardController', ['$scope', 'SoundService', function($s
 dndApp.factory('SoundService', function() {
     var sounds = [
         {
+            type: 'microphone',
             title: 'Roaahrr',
             src:'roar.wav',
             loop: false
         },
         {
+            type: 'music',
             title: 'Medival',
             src:'medival.wav',
             loop: true
@@ -212,6 +215,7 @@ dndApp.factory('SoundService', function() {
     return {
         sounds:sounds,
         play: playSound,
+        pause: pauseSound,
         stop: stopSound
     };
 
@@ -221,8 +225,12 @@ dndApp.factory('SoundService', function() {
         audio[sound].play();
     }
 
-    function stopSound(sound){
+    function pauseSound(sound){
         audio[sound].pause();
+    }
+
+    function stopSound(sound){
+        audio[sound].stop();
     }
 });
 
