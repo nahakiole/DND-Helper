@@ -229,24 +229,30 @@ dndApp.factory('SoundService', function($interval) {
         var audioelement = new Audio('sounds/'+sound.src);
         audioelement.loop = sound.loop;
         audioelement.volume = sound.volume;
+        sound.length = audioelement.length;
         audio[sound.id] = audioelement;
     });
     return {
         sounds:sounds,
-        play: playSound,
-        pause: pauseSound,
+        start: startSound,
+        toggle: toggleSound,
         stop: stopSound,
-        changeVolume: changeVolume
+        volume: changeVolume,
+        paused: isPaused
     };
 
-    function playSound(sound){
+    function startSound(sound){
         audio[sound].pause();
         audio[sound].currentTime = 0;
         audio[sound].play();
     }
 
-    function pauseSound(sound){
-        audio[sound].pause();
+    function toggleSound(sound){
+        if(isPaused(sound)){
+            audio[sound].play();
+        }else{
+            audio[sound].pause();
+        }
     }
 
     function stopSound(sound){
@@ -266,6 +272,10 @@ dndApp.factory('SoundService', function($interval) {
     function changeVolume(sound){
         $interval.cancel(fadeout[sound]);
         audio[sound].volume = sounds[sound].volume;
+    }
+
+    function isPaused(sound){
+        return audio[sound].paused;
     }
 });
 

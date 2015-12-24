@@ -90,12 +90,12 @@
                 <span class="fa fa-4x" ng-class="'fa-' + sound.type "/>
                 <h4>{{sound.title}}</h4>
                 <div class="btn-group btn-group-sm">
-                    <button class="btn btn-primary" data-ng-click="SoundService.play(sound.id)"><span class="fa fa-play"/></button>
-                    <button class="btn btn-default" data-ng-click="SoundService.pause(sound.id)"><span class="fa fa-pause"/></button>
-                    <button class="btn btn-danger" data-ng-click="SoundService.stop(sound.id)"><span class="fa fa-stop"/></button>
-                    <button class="btn btn-primary" ng-model="sound.loop" uib-btn-checkbox><span class="fa fa-repeat"/></button>
+                    <button class="btn btn-primary" data-ng-click="SoundService.start(sound.id)"><span class="fa fa-fw fa-step-forward"/></button>
+                    <button class="btn btn-default" data-ng-click="SoundService.toggle(sound.id)"><span class="fa fa-fw fa-play" ng-show="SoundService.paused(sound.id)"/><span class="fa fa-fw fa-pause" ng-hide="SoundService.paused(sound.id)"/></button>
+                    <button class="btn btn-danger" data-ng-click="SoundService.stop(sound.id)"><span class="fa fa-fw fa-stop"/></button>
+                    <button class="btn btn-primary" ng-model="sound.loop" uib-btn-checkbox><span class="fa fa-fw fa-repeat"/></button>
                 </div>
-                <input type="range" min="0" max="1" step="any" ng-model="sound.volume" ng-change="SoundService.changeVolume(sound.id)" >
+                <input type="range" min="0" max="1" step="any" ng-model="sound.volume" ng-change="SoundService.volume(sound.id)" >
             </div>
         </div>
     </div>
