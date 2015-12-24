@@ -187,22 +187,40 @@ dndApp.controller('tableController', ['$scope', '$modal', function ($scope, $mod
 
 }]);
 
+dndApp.directive('input', function() {
+    return {
+        restrict: 'E',
+        require: '?ngModel',
+        link: function(scope, element, attrs, ngModel) {
+            if ('type' in attrs && attrs.type.toLowerCase() === 'range') {
+                ngModel.$parsers.push(parseFloat);
+            }
+        }
+    };
+});
+
 dndApp.controller('SoundBoardController', ['$scope', 'SoundService', function($scope,SoundService){
     $scope.SoundService = SoundService;
 }]);
 
-dndApp.factory('SoundService', function() {
+dndApp.factory('SoundService', function($interval) {
+    var fadeout = [];
+
     var sounds = [
         {
+            id: 0,
             type: 'microphone',
             title: 'Roaahrr',
             src:'roar.wav',
+            volume: 0.5,
             loop: false
         },
         {
+            id: 1,
             type: 'music',
             title: 'Medival',
             src:'medival.wav',
+            volume: 0.5,
             loop: true
         }
     ];
@@ -210,13 +228,15 @@ dndApp.factory('SoundService', function() {
     angular.forEach(sounds,function(sound){
         var audioelement = new Audio('sounds/'+sound.src);
         audioelement.loop = sound.loop;
-        audio[sound.src] = audioelement;
+        audioelement.volume = sound.volume;
+        audio[sound.id] = audioelement;
     });
     return {
         sounds:sounds,
         play: playSound,
         pause: pauseSound,
-        stop: stopSound
+        stop: stopSound,
+        changeVolume: changeVolume
     };
 
     function playSound(sound){
@@ -230,7 +250,22 @@ dndApp.factory('SoundService', function() {
     }
 
     function stopSound(sound){
-        audio[sound].stop();
+        fadeout[sound] = $interval(function(){
+            if(audio[sound].volume <= 0.01){
+                $interval.cancel(fadeout);
+                audio[sound].volume = 0;
+                audio[sound].pause();
+                audio[sound].currentTime = 0;
+            }else{
+                audio[sound].volume *= 0.95;
+            }
+            sounds[sound].volume = audio[sound].volume;
+        },42);
+    }
+
+    function changeVolume(sound){
+        $interval.cancel(fadeout[sound]);
+        audio[sound].volume = sounds[sound].volume;
     }
 });
 

@@ -38,7 +38,7 @@
 
     <script src="js/vendor/bootstrap.min.js"></script>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0-rc.0/angular.min.js"></script>
     <script type="text/javascript" src="js/ng-tags-input.min.js"></script>
     <script type="text/javascript" src="js/ui-bootstrap-tpls-0.14.3.min.js"></script>
 
@@ -90,12 +90,12 @@
                 <span class="fa fa-4x" ng-class="'fa-' + sound.type "/>
                 <h4>{{sound.title}}</h4>
                 <div class="btn-group btn-group-sm">
-                    <button class="btn btn-primary" data-ng-click="SoundService.play(sound.src)"><span class="fa fa-play"/></button>
-                    <button class="btn btn-default" data-ng-click="SoundService.pause(sound.src)"><span class="fa fa-pause"/></button>
-                    <button class="btn btn-danger" data-ng-click="SoundService.stop(sound.src)"><span class="fa fa-stop"/></button>
+                    <button class="btn btn-primary" data-ng-click="SoundService.play(sound.id)"><span class="fa fa-play"/></button>
+                    <button class="btn btn-default" data-ng-click="SoundService.pause(sound.id)"><span class="fa fa-pause"/></button>
+                    <button class="btn btn-danger" data-ng-click="SoundService.stop(sound.id)"><span class="fa fa-stop"/></button>
                     <button class="btn btn-primary" ng-model="sound.loop" uib-btn-checkbox><span class="fa fa-repeat"/></button>
                 </div>
-                <input type="range" value="0.5" min="0" max="1" step="any" data-ng-click="SoundService.changeVolume(sound.src)">
+                <input type="range" min="0" max="1" step="any" ng-model="sound.volume" ng-change="SoundService.changeVolume(sound.id)" >
             </div>
         </div>
     </div>
