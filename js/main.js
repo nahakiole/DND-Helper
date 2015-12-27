@@ -272,7 +272,6 @@ dndApp.factory('SoundService', function($interval) {
             if(sounds[sound].loop){
                 audio[sound].seekTo(0);
                 audio[sound].play();
-                $scope.$apply();
             }
         });
     }
