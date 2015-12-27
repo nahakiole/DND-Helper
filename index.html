@@ -88,17 +88,17 @@
         <div class="row">
             <div class="col-md-3 soundpanel" data-ng-repeat="sound in SoundService.sounds">
                 <div class="pull-right soundpanel-volume">
-                    <div class="fa fa-volume-up"/>
+                    <div class="fa fa-volume-up"></div>
                     <input type="range" min="0" max="1" step="any" ng-model="sound.volume" ng-change="SoundService.volume(sound.id)" orient="vertical">
-                    <div class="fa fa-volume-off"/>
+                    <div class="fa fa-volume-off"></div>
                 </div>
-                <span class="fa fa-4x" ng-class="'fa-' + sound.type "/>
+                <span class="fa fa-4x" ng-class="'fa-' + sound.type "></span>
                 <h4>{{sound.title}}</h4>
                 <div class="btn-group btn-group-sm">
-                    <button class="btn btn-primary" data-ng-click="SoundService.start(sound.id)"><span class="fa fa-fw fa-step-forward"/></button>
-                    <button class="btn btn-default" data-ng-click="SoundService.toggle(sound.id)"><span class="fa fa-fw fa-play" ng-show="SoundService.paused(sound.id)"/><span class="fa fa-fw fa-pause" ng-hide="SoundService.paused(sound.id)"/></button>
-                    <button class="btn btn-danger" data-ng-click="SoundService.stop(sound.id)"><span class="fa fa-fw fa-stop"/></button>
-                    <button class="btn btn-primary" ng-model="sound.loop" uib-btn-checkbox><span class="fa fa-fw fa-repeat"/></button>
+                    <button class="btn btn-primary" data-ng-click="SoundService.start(sound.id)"><span class="fa fa-fw fa-step-forward"></span></button>
+                    <button class="btn btn-default" data-ng-click="SoundService.toggle(sound.id)"><span class="fa fa-fw fa-play" ng-show="SoundService.paused(sound.id)"></span><span class="fa fa-fw fa-pause" ng-hide="SoundService.paused(sound.id)"></span></button>
+                    <button class="btn btn-danger" data-ng-click="SoundService.stop(sound.id)"><span class="fa fa-fw fa-stop"></span></button>
+                    <button class="btn btn-primary" ng-model="sound.loop" uib-btn-checkbox><span class="fa fa-fw fa-repeat"></span></button>
                 </div>
             </div>
         </div>
