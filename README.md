@@ -5,7 +5,9 @@
 
 ## Planned features
 
-- Soundboard #1
+- Moar sounds
+- Adding custom enemies over the interface
+- Use a database for storing all data
 
 ## Contributing
 
