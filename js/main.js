@@ -267,7 +267,16 @@ dndApp.factory('SoundService', function($interval) {
 
     function initSound(sound, wavesurfer){
         audio[sound] = wavesurfer;
+
+        wavesurfer.on('finish', function () {
+            if(sounds[sound].loop){
+                audio[sound].seekTo(0);
+                audio[sound].play();
+                $scope.$apply();
+            }
+        });
     }
+
 
     function startSound(sound){
         if (!audio[sound]){
