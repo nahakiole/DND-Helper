@@ -2,6 +2,27 @@
 
 var dndApp = angular.module('dndApp', ['ngTagsInput', 'ui.bootstrap']);
 
+
+dndApp.directive('ngWavesurfer', function () {
+    return {
+        restrict: 'E',
+
+        link: function ($scope, $element, $attrs) {
+            $element.css('display', 'block');
+
+            var options = angular.extend({ container: $element[0] }, $attrs);
+            var wavesurfer = WaveSurfer.create(options);
+
+            if ($attrs.url) {
+                wavesurfer.load($attrs.url, $attrs.data || null);
+            }
+
+            $scope.$emit('wavesurferInit', {wavesurfer:wavesurfer, id: $attrs.audioId });
+        }
+    };
+});
+
+
 dndApp.controller('tableController', ['$scope', '$modal', function ($scope, $modal) {
     $scope.enemies = [];
     $scope.round = 1;
@@ -102,7 +123,7 @@ dndApp.controller('tableController', ['$scope', '$modal', function ($scope, $mod
         }, function () {
         });
     };
-    $scope.openSettings();
+    //$scope.openSettings();
 
     $scope.openSound = function () {
         var modalInstance = $modal.open({
@@ -115,6 +136,7 @@ dndApp.controller('tableController', ['$scope', '$modal', function ($scope, $mod
         }, function () {
         });
     };
+    $scope.openSound();
 
     $scope.toggleTag = function (enemy, tag) {
         for (var i = 0; i < enemy.tags.length; i++) {
@@ -201,6 +223,11 @@ dndApp.directive('input', function() {
 
 dndApp.controller('SoundBoardController', ['$scope', 'SoundService', function($scope,SoundService){
     $scope.SoundService = SoundService;
+
+    $scope.$on('wavesurferInit', function (e, options) {
+        SoundService.initSound(options.id, options.wavesurfer);
+        console.log(options);
+    });
 }]);
 
 dndApp.factory('SoundService', function($interval) {
@@ -227,18 +254,6 @@ dndApp.factory('SoundService', function($interval) {
         }
     ];
     var audio = {};
-    angular.forEach(sounds,function(sound){
-        var audioelement = new Audio('sounds/'+sound.src);
-        audioelement.loop = sound.loop;
-        audioelement.volume = sound.volume;
-        audioelement.songID = sound.id;
-        audioelement.preload = true;
-        audioelement.addEventListener('loadedmetadata', function(){
-            setDuration(this);
-        });
-        sound.duration = audioelement.duration;
-        audio[sound.id] = audioelement;
-    });
 
     return {
         sounds: sounds,
@@ -247,12 +262,19 @@ dndApp.factory('SoundService', function($interval) {
         stop: stopSound,
         volume: changeVolume,
         paused: isPaused,
-        position: playedPosition
+        initSound: initSound
     };
 
+    function initSound(sound, wavesurfer){
+        audio[sound] = wavesurfer;
+    }
+
     function startSound(sound){
+        if (!audio[sound]){
+            return;
+        }
         audio[sound].pause();
-        audio[sound].currentTime = 0;
+        audio[sound].seekTo(0);
         audio[sound].play();
     }
 
@@ -266,33 +288,25 @@ dndApp.factory('SoundService', function($interval) {
 
     function stopSound(sound){
         fadeout[sound] = $interval(function(){
-            if(audio[sound].volume <= 0.01){
+            if(audio[sound].backend.getVolume() <= 0.01){
                 $interval.cancel(fadeout);
-                audio[sound].volume = 0;
+                audio[sound].setVolume(0);
                 audio[sound].pause();
-                audio[sound].currentTime = 0;
+                audio[sound].seekTo(0);
             }else{
-                audio[sound].volume *= 0.95;
+                audio[sound].setVolume(audio[sound].backend.getVolume()*0.95) ;
             }
-            sounds[sound].volume = audio[sound].volume;
+            sounds[sound].volume = audio[sound].backend.getVolume();
         },42);
-    }
-
-    function playedPosition(sound){
-        return audio[sound].currentTime;
-    }
-
-    function setDuration(audio){
-        return sounds[audio.songID].duration = audio.duration;
     }
 
     function changeVolume(sound){
         $interval.cancel(fadeout[sound]);
-        audio[sound].volume = sounds[sound].volume;
+        audio[sound].setVolume(sounds[sound].volume);
     }
 
     function isPaused(sound){
-        return audio[sound].paused;
+        return !audio[sound].isPlaying();
     }
 });
 

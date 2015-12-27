@@ -39,8 +39,9 @@
     <script src="js/vendor/bootstrap.min.js"></script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0-rc.0/angular.min.js"></script>
-    <script type="text/javascript" src="js/ng-tags-input.min.js"></script>
-    <script type="text/javascript" src="js/ui-bootstrap-tpls-0.14.3.min.js"></script>
+    <script type="text/javascript" src="js/vendor/ng-tags-input.min.js"></script>
+    <script type="text/javascript" src="js/vendor/ui-bootstrap-tpls-0.14.3.min.js"></script>
+    <script type="text/javascript" src="js/vendor/wavesurfer.min.js"></script>
 
 
     <script src="js/main.js"></script>
@@ -100,6 +101,9 @@
                     <button class="btn btn-danger" data-ng-click="SoundService.stop(sound.id)"><span class="fa fa-fw fa-stop"/></button>
                     <button class="btn btn-primary" ng-model="sound.loop" uib-btn-checkbox><span class="fa fa-fw fa-repeat"/></button>
                 </div>
+                <div class="clearfix"></div>
+                <ng-wavesurfer url="sounds/{{ sound.src }}" wave-color="#337ab7" progress-color="#23527c" height="30" audio-id="{{sound.id}}">
+                </ng-wavesurfer>
             </div>
         </div>
     </div>
