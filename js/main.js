@@ -212,6 +212,7 @@ dndApp.factory('SoundService', function($interval) {
             type: 'microphone',
             title: 'Roaahrr',
             src:'roar.wav',
+            source: 'http://freesound.org/people/dobroide/sounds/204980/',
             volume: 0.5,
             loop: false
         },
@@ -220,6 +221,7 @@ dndApp.factory('SoundService', function($interval) {
             type: 'music',
             title: 'Medival',
             src:'medival.wav',
+            source: 'http://freesound.org/people/Tristan_Lohengrin/sounds/319781/',
             volume: 0.5,
             loop: true
         }
@@ -229,16 +231,23 @@ dndApp.factory('SoundService', function($interval) {
         var audioelement = new Audio('sounds/'+sound.src);
         audioelement.loop = sound.loop;
         audioelement.volume = sound.volume;
-        sound.length = audioelement.length;
+        audioelement.songID = sound.id;
+        audioelement.preload = true;
+        audioelement.addEventListener('loadedmetadata', function(){
+            setDuration(this);
+        });
+        sound.duration = audioelement.duration;
         audio[sound.id] = audioelement;
     });
+
     return {
-        sounds:sounds,
+        sounds: sounds,
         start: startSound,
         toggle: toggleSound,
         stop: stopSound,
         volume: changeVolume,
-        paused: isPaused
+        paused: isPaused,
+        position: playedPosition
     };
 
     function startSound(sound){
@@ -269,6 +278,14 @@ dndApp.factory('SoundService', function($interval) {
         },42);
     }
 
+    function playedPosition(sound){
+        return audio[sound].currentTime;
+    }
+
+    function setDuration(audio){
+        return sounds[audio.songID].duration = audio.duration;
+    }
+
     function changeVolume(sound){
         $interval.cancel(fadeout[sound]);
         audio[sound].volume = sounds[sound].volume;
@@ -277,6 +294,12 @@ dndApp.factory('SoundService', function($interval) {
     function isPaused(sound){
         return audio[sound].paused;
     }
+});
+
+dndApp.filter('secondsToDateTime', function() {
+    return function(seconds) {
+        return new Date(0,0,0,0,0,0,0).setSeconds(seconds);
+    };
 });
 
 dndApp.controller('SettingsController', ['$scope', '$modalInstance', 'enemyTypes', function ($scope, $modalInstance, enemyTypes) {
