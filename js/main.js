@@ -123,7 +123,7 @@ dndApp.controller('tableController', ['$scope', '$modal', function ($scope, $mod
         }, function () {
         });
     };
-    //$scope.openSettings();
+    $scope.openSettings();
 
     $scope.openSound = function () {
         var modalInstance = $modal.open({
@@ -136,7 +136,6 @@ dndApp.controller('tableController', ['$scope', '$modal', function ($scope, $mod
         }, function () {
         });
     };
-    $scope.openSound();
 
     $scope.toggleTag = function (enemy, tag) {
         for (var i = 0; i < enemy.tags.length; i++) {
@@ -226,7 +225,6 @@ dndApp.controller('SoundBoardController', ['$scope', 'SoundService', function($s
 
     $scope.$on('wavesurferInit', function (e, options) {
         SoundService.initSound(options.id, options.wavesurfer);
-        console.log(options);
     });
 }]);
 
