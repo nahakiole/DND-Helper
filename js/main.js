@@ -2,6 +2,27 @@
 
 var dndApp = angular.module('dndApp', ['ngTagsInput', 'ui.bootstrap']);
 
+
+dndApp.directive('ngWavesurfer', function () {
+    return {
+        restrict: 'E',
+
+        link: function ($scope, $element, $attrs) {
+            $element.css('display', 'block');
+
+            var options = angular.extend({ container: $element[0] }, $attrs);
+            var wavesurfer = WaveSurfer.create(options);
+
+            if ($attrs.url) {
+                wavesurfer.load($attrs.url, $attrs.data || null);
+            }
+
+            $scope.$emit('wavesurferInit', {wavesurfer:wavesurfer, id: $attrs.audioId });
+        }
+    };
+});
+
+
 dndApp.controller('tableController', ['$scope', '$modal', function ($scope, $modal) {
     $scope.enemies = [];
     $scope.round = 1;
@@ -102,18 +123,20 @@ dndApp.controller('tableController', ['$scope', '$modal', function ($scope, $mod
         }, function () {
         });
     };
-    $scope.openSettings();
+    //$scope.openSettings();
 
     $scope.openSound = function () {
         var modalInstance = $modal.open({
             templateUrl: 'sound.html',
-            controller: 'SoundBoardController'
+            controller: 'SoundBoardController',
+            size: 'lg'
 
         });
         modalInstance.result.then(function (enemyTypes) {
         }, function () {
         });
     };
+    $scope.openSound();
 
     $scope.toggleTag = function (enemy, tag) {
         for (var i = 0; i < enemy.tags.length; i++) {
@@ -186,44 +209,119 @@ dndApp.controller('tableController', ['$scope', '$modal', function ($scope, $mod
 
 }]);
 
+dndApp.directive('input', function() {
+    return {
+        restrict: 'E',
+        require: '?ngModel',
+        link: function(scope, element, attrs, ngModel) {
+            if ('type' in attrs && attrs.type.toLowerCase() === 'range') {
+                ngModel.$parsers.push(parseFloat);
+            }
+        }
+    };
+});
+
 dndApp.controller('SoundBoardController', ['$scope', 'SoundService', function($scope,SoundService){
     $scope.SoundService = SoundService;
+
+    $scope.$on('wavesurferInit', function (e, options) {
+        SoundService.initSound(options.id, options.wavesurfer);
+        console.log(options);
+    });
 }]);
 
-dndApp.factory('SoundService', function() {
+dndApp.factory('SoundService', function($interval) {
+    var fadeout = [];
+
     var sounds = [
         {
+            id: 0,
+            type: 'microphone',
             title: 'Roaahrr',
             src:'roar.wav',
+            source: 'http://freesound.org/people/dobroide/sounds/204980/',
+            volume: 0.5,
             loop: false
         },
         {
+            id: 1,
+            type: 'music',
             title: 'Medival',
             src:'medival.wav',
+            source: 'http://freesound.org/people/Tristan_Lohengrin/sounds/319781/',
+            volume: 0.5,
             loop: true
         }
     ];
     var audio = {};
-    angular.forEach(sounds,function(sound){
-        var audioelement = new Audio('sounds/'+sound.src);
-        audioelement.loop = sound.loop;
-        audio[sound.src] = audioelement;
-    });
+
     return {
-        sounds:sounds,
-        play: playSound,
-        stop: stopSound
+        sounds: sounds,
+        start: startSound,
+        toggle: toggleSound,
+        stop: stopSound,
+        volume: changeVolume,
+        paused: isPaused,
+        initSound: initSound
     };
 
-    function playSound(sound){
+    function initSound(sound, wavesurfer){
+        audio[sound] = wavesurfer;
+
+        wavesurfer.on('finish', function () {
+            if(sounds[sound].loop){
+                audio[sound].seekTo(0);
+                audio[sound].play();
+            }
+        });
+    }
+
+
+    function startSound(sound){
+        if (!audio[sound]){
+            return;
+        }
         audio[sound].pause();
-        audio[sound].currentTime = 0;
+        audio[sound].seekTo(0);
         audio[sound].play();
     }
 
-    function stopSound(sound){
-        audio[sound].pause();
+    function toggleSound(sound){
+        if(isPaused(sound)){
+            audio[sound].play();
+        }else{
+            audio[sound].pause();
+        }
     }
+
+    function stopSound(sound){
+        fadeout[sound] = $interval(function(){
+            if(audio[sound].backend.getVolume() <= 0.01){
+                $interval.cancel(fadeout);
+                audio[sound].setVolume(0);
+                audio[sound].pause();
+                audio[sound].seekTo(0);
+            }else{
+                audio[sound].setVolume(audio[sound].backend.getVolume()*0.95) ;
+            }
+            sounds[sound].volume = audio[sound].backend.getVolume();
+        },42);
+    }
+
+    function changeVolume(sound){
+        $interval.cancel(fadeout[sound]);
+        audio[sound].setVolume(sounds[sound].volume);
+    }
+
+    function isPaused(sound){
+        return !audio[sound].isPlaying();
+    }
+});
+
+dndApp.filter('secondsToDateTime', function() {
+    return function(seconds) {
+        return new Date(0,0,0,0,0,0,0).setSeconds(seconds);
+    };
 });
 
 dndApp.controller('SettingsController', ['$scope', '$modalInstance', 'enemyTypes', function ($scope, $modalInstance, enemyTypes) {

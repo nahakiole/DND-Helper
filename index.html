@@ -17,7 +17,7 @@
 
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <style>
-        body{
+        body {
             padding-top: 50px;
             padding-bottom: 20px;
         }
@@ -38,9 +38,10 @@
 
     <script src="js/vendor/bootstrap.min.js"></script>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular.min.js"></script>
-    <script type="text/javascript" src="js/ng-tags-input.min.js"></script>
-    <script type="text/javascript" src="js/ui-bootstrap-tpls-0.13.3.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0-rc.0/angular.min.js"></script>
+    <script type="text/javascript" src="js/vendor/ng-tags-input.min.js"></script>
+    <script type="text/javascript" src="js/vendor/ui-bootstrap-tpls-0.14.3.min.js"></script>
+    <script type="text/javascript" src="js/vendor/wavesurfer.min.js"></script>
 
 
     <script src="js/main.js"></script>
@@ -66,7 +67,8 @@
                         {{enemy.name}}
                     </td>
                     <td class="text-right">
-                        <button class="btn btn-primary btn-sm" type="button" data-ng-click="toggle(enemy)" data-ng-class="isActive(enemy) ? 'btn-danger' : ''">
+                        <button class="btn btn-primary btn-sm" type="button" data-ng-click="toggle(enemy)"
+                                data-ng-class="isActive(enemy) ? 'btn-danger' : ''">
                             {{ isActive(enemy) ? 'Entfernen' : 'Hinzufügen' }}
                         </button>
                     </td>
@@ -83,23 +85,26 @@
         <h3 class="modal-title">Audio</h3>
     </div>
     <div class="modal-body">
-        <table class="table table-striped table-responsive">
-            <tr>
-                <th>Name</th>
-            </tr>
-        </table>
 
-
-        <div class="table-enemies">
-            <table class="table table-striped table-responsive ">
-                <tr data-ng-repeat="sound in SoundService.sounds">
-                   <td>
-                       {{sound.title}}
-                       <button class="btn btn-default" data-ng-click="SoundService.play(sound.src)">Play</button>
-                       <button class="btn btn-danger" data-ng-click="SoundService.stop(sound.src)">Pause</button>
-                   </td>
-                </tr>
-            </table>
+        <div class="row">
+            <div class="col-md-3 soundpanel" data-ng-repeat="sound in SoundService.sounds">
+                <div class="pull-right soundpanel-volume">
+                    <div class="fa fa-volume-up"></div>
+                    <input type="range" min="0" max="1" step="any" ng-model="sound.volume" ng-change="SoundService.volume(sound.id)" orient="vertical">
+                    <div class="fa fa-volume-off"></div>
+                </div>
+                <span class="fa fa-4x" ng-class="'fa-' + sound.type "></span>
+                <h4>{{sound.title}}</h4>
+                <div class="btn-group btn-group-sm">
+                    <button class="btn btn-primary" data-ng-click="SoundService.start(sound.id)"><span class="fa fa-fw fa-step-forward"></span></button>
+                    <button class="btn btn-default" data-ng-click="SoundService.toggle(sound.id)"><span class="fa fa-fw fa-play" ng-show="SoundService.paused(sound.id)"></span><span class="fa fa-fw fa-pause" ng-hide="SoundService.paused(sound.id)"></span></button>
+                    <button class="btn btn-danger" data-ng-click="SoundService.stop(sound.id)"><span class="fa fa-fw fa-stop"></span></button>
+                    <button class="btn btn-primary" ng-model="sound.loop" uib-btn-checkbox><span class="fa fa-fw fa-repeat"></span></button>
+                </div>
+                <div class="clearfix"></div>
+                <ng-wavesurfer url="sounds/{{ sound.src }}" wave-color="#337ab7" progress-color="#23527c" height="30" audio-id="{{sound.id}}">
+                </ng-wavesurfer>
+            </div>
         </div>
     </div>
     <div class="modal-footer">
@@ -154,11 +159,14 @@
                 </tags-input>
             </td>
             <td class="text-right button-actions" width="30%">
-                <button type="button" name="button" class="btn" data-ng-click="toggleTag(enemy,'vergiftet')" data-ng-class="hasTag(enemy,'vergiftet') ? 'btn-success' : 'btn-default'">
+                <button type="button" name="button" class="btn" data-ng-click="toggleTag(enemy,'vergiftet')"
+                        data-ng-class="hasTag(enemy,'vergiftet') ? 'btn-success' : 'btn-default'">
                     <i class="fa fa-medkit"></i></button>
-                <button type="button" name="button" class="btn" data-ng-click="toggleTag(enemy,'feuer')" data-ng-class="hasTag(enemy,'feuer') ? 'btn-success' : 'btn-default'">
+                <button type="button" name="button" class="btn" data-ng-click="toggleTag(enemy,'feuer')"
+                        data-ng-class="hasTag(enemy,'feuer') ? 'btn-success' : 'btn-default'">
                     <i class="fa fa-fire"></i></button>
-                <button type="button" name="button" class="btn" data-ng-click="toggleTag(enemy,'betäubt')" data-ng-class="hasTag(enemy,'betäubt') ? 'btn-success' : 'btn-default'">
+                <button type="button" name="button" class="btn" data-ng-click="toggleTag(enemy,'betäubt')"
+                        data-ng-class="hasTag(enemy,'betäubt') ? 'btn-success' : 'btn-default'">
                     <i class="fa fa-bed"></i></button>
                 <button type="button" name="button" class="btn btn-danger" data-ng-click="instaKill(enemy)">
                     <i class="fa fa-heart"></i></button>
@@ -174,7 +182,8 @@
             <div class="row">
                 <div class="col-md-7 enemy-buttons">
                   <span data-ng-repeat="enemyTyp in enemyTypes" class="enemyList">
-                    <button type="button" name="button" class="btn btn-default btn-sm" data-ng-click="addEnemy(enemyTyp.name)">
+                    <button type="button" name="button" class="btn btn-default btn-sm"
+                            data-ng-click="addEnemy(enemyTyp.name)">
                         {{enemyTyp.name}}
                     </button>
                       <div class="enemyHelper">
