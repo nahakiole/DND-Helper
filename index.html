@@ -116,40 +116,45 @@
     your browser</a> to improve your experience.</p>
 <![endif]-->
 
-<div class="col-md-12">
-    <h1 class="text-center">DND Helper</h1>
+<div class="col-md-12 content">
+    <header>
+        <h1 class="text-center">DND Helper</h1>
+    </header>
 
     <table class="table">
-        <tr>
-            <th width="15%">Name</th>
-            <th width="20%">LP</th>
-            <th width="20%">AP</th>
-            <th width="15%">Tags</th>
-            <th width="30%">Aktion</th>
-        </tr>
+        <thead>
+            <tr>
+                <th width="15%">Name</th>
+                <th width="20%">LP</th>
+                <th width="20%">AP</th>
+                <th width="20%">Tags</th>
+                <th width="25%">Aktion</th>
+            </tr>
+        </thead>
+        <tbody>
         <tr data-ng-repeat="enemy in enemies" data-ng-class="enemy.isDead() ? 'danger' : ''">
             <td>
                 <input type="text" class="form-control" data-ng-model="enemy.name">
             </td>
             <td>
                 <div class="btn-group" role="group">
-                    <button type="button" name="button" class="btn btn-default" data-ng-click="enemy.setLp(enemy.lp+1)">
-                        +
-                    </button>
-                    <input type="number" class="form-control" data-ng-model="enemy.lp">
                     <button type="button" name="button" class="btn btn-default" data-ng-click="enemy.setLp(enemy.lp-1)">
                         -
+                    </button>
+                    <input type="number" class="form-control" data-ng-model="enemy.lp">
+                    <button type="button" name="button" class="btn btn-default" data-ng-click="enemy.setLp(enemy.lp+1)">
+                        +
                     </button>
                 </div>
             </td>
             <td>
                 <div class="btn-group" role="group">
-                    <button type="button" name="button" class="btn btn-default" data-ng-click="enemy.setAp(enemy.ap+1)">
-                        +
-                    </button>
-                    <input type="number" class="form-control" data-ng-model="enemy.ap">
                     <button type="button" name="button" class="btn btn-default" data-ng-click="enemy.setAp(enemy.ap-1)">
                         -
+                    </button>
+                    <input type="number" class="form-control" data-ng-model="enemy.ap">
+                    <button type="button" name="button" class="btn btn-default" data-ng-click="enemy.setAp(enemy.ap+1)">
+                        +
                     </button>
                 </div>
             </td>
@@ -160,13 +165,13 @@
             </td>
             <td class="text-right button-actions" width="30%">
                 <button type="button" name="button" class="btn" data-ng-click="toggleTag(enemy,'vergiftet')"
-                        data-ng-class="hasTag(enemy,'vergiftet') ? 'btn-success' : 'btn-default'">
-                    <i class="fa fa-medkit"></i></button>
+                        data-ng-class="hasTag(enemy,'vergiftet') ? 'btn-success' : 'btn-default'" title="Vergiften">
+                    <i class="fa fa-flask"></i></button>
                 <button type="button" name="button" class="btn" data-ng-click="toggleTag(enemy,'feuer')"
-                        data-ng-class="hasTag(enemy,'feuer') ? 'btn-success' : 'btn-default'">
+                        data-ng-class="hasTag(enemy,'feuer') ? 'btn-success' : 'btn-default'" title="Verbrennen">
                     <i class="fa fa-fire"></i></button>
                 <button type="button" name="button" class="btn" data-ng-click="toggleTag(enemy,'betäubt')"
-                        data-ng-class="hasTag(enemy,'betäubt') ? 'btn-success' : 'btn-default'">
+                        data-ng-class="hasTag(enemy,'betäubt') ? 'btn-success' : 'btn-default'" title="Betäuben">
                     <i class="fa fa-bed"></i></button>
                 <button type="button" name="button" class="btn btn-danger" data-ng-click="instaKill(enemy)">
                     <i class="fa fa-heart"></i></button>
@@ -176,6 +181,7 @@
 
             </td>
         </tr>
+        </tbody>
     </table>
     <div class="static-navigation">
         <div class="col-md-12">
