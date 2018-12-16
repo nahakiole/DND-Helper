@@ -1,0 +1,18 @@
+{
+  "name": "nahakiole/dndhelper",
+  "description": "Simple DND Helper",
+  "minimum-stability": "dev",
+  "license": "GPL",
+  "authors": [
+    {
+      "name": "Robin Glauser"
+    },
+    {
+      "name": "Manuel Meister"
+    }
+  ],
+  "require": {
+    "james-heinrich/getid3": "^1.9@dev",
+    "ext-json": "*"
+  }
+}
