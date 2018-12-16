@@ -11,8 +11,6 @@ define( 'DIR_ROOT', 'sounds/' );
 
 require '../vendor/autoload.php';
 
-use Vistag\HumanReadable\ReadableSeconds;
-
 try {
 	$dir   = scandir( '../' . DIR_ROOT );
 	$items = array_diff( $dir, IGNORE_FILES );
@@ -23,13 +21,31 @@ try {
 	$id3engine = new getID3();
 
 
-	function convert_to_url($path) {
-		$exploded = explode('/',$path);
-		$return = [];
-		foreach ($exploded as $item) {
-			$return[] = rawurlencode($item);
+	function convert_to_url( $path ) {
+		$exploded = explode( '/', $path );
+		$return   = [];
+		foreach ( $exploded as $item ) {
+			$return[] = rawurlencode( $item );
 		}
-		return join('/',$return);
+
+		return join( '/', $return );
+	}
+
+	function format_duration( $seconds ) {
+		$minutes = $seconds / 60;
+		$result  = '';
+		if ( $minutes >= 1 ) {
+			$result .= $minutes;
+		} else {
+			$result = '0';
+		}
+		if ( $seconds % 60.0 > 9 ) {
+			$result .= ':' . $seconds % 60.0;
+		} else {
+			$result .= ':0' . $seconds % 60.0;
+		}
+
+		return $result;
 	}
 
 	/**
@@ -50,15 +66,15 @@ try {
 				$local_items   = array_diff( $local_dir, IGNORE_FILES );
 				loop_dir( $local_items, $item, $local_dirpath, $id3engine, $id, $sounds );
 			} else {
-				$info     = $id3engine->analyze( '../' . $dir_path . $item );
-				getid3_lib::CopyTagsToComments($info);
+				$info = $id3engine->analyze( '../' . $dir_path . $item );
+				getid3_lib::CopyTagsToComments( $info );
 				$sounds[] = [
 					'id'       => $id ++,
-					'category' => rawurldecode($category),
+					'category' => rawurldecode( $category ),
 					'title'    => $info['comments']['title'][0],
-					'length'   => (new ReadableSeconds(round($info['playtime_seconds'],1)))->long(),
+					'length'   => format_duration( round( $info['playtime_seconds'], 1 ) ),
 					'loop'     => strpos( $item, '_loop' ) !== false,
-					'src'      => convert_to_url($dir_path . $item)
+					'src'      => convert_to_url( $dir_path . $item )
 				];
 			}
 		}
