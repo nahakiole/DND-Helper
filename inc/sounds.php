@@ -42,7 +42,7 @@ try {
 	 * @param $id
 	 * @param $sounds
 	 */
-	function loop_dir( $items, $category, $dir_path, $id3engine, &$id, &$sounds ): void {
+	function loop_dir( $items, $category, $dir_path, $id3engine, &$id, &$sounds ) {
 		foreach ( $items as $item ) {
 			if ( is_dir( '../' . $dir_path . $item ) ) {
 				$local_dirpath = $dir_path . $item . '/';
@@ -51,10 +51,11 @@ try {
 				loop_dir( $local_items, $item, $local_dirpath, $id3engine, $id, $sounds );
 			} else {
 				$info     = $id3engine->analyze( '../' . $dir_path . $item );
+				getid3_lib::CopyTagsToComments($info);
 				$sounds[] = [
 					'id'       => $id ++,
 					'category' => rawurldecode($category),
-					'title'    => $info['tags']['riff']['title'][0],
+					'title'    => $info['comments']['title'][0],
 					'length'   => (new ReadableSeconds(round($info['playtime_seconds'],1)))->long(),
 					'loop'     => strpos( $item, '_loop' ) !== false,
 					'src'      => convert_to_url($dir_path . $item)
