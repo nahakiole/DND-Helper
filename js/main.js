@@ -1,26 +1,24 @@
-
-
 var dndApp = angular.module('dndApp', ['ngTagsInput', 'ui.bootstrap']);
 
 
-dndApp.directive('ngWavesurfer', function () {
+dndApp.directive('ngWavesurfer', ['SoundService', function (SoundService) {
     return {
         restrict: 'E',
-
         link: function ($scope, $element, $attrs) {
             $element.css('display', 'block');
 
-            var options = angular.extend({ container: $element[0] }, $attrs);
+            var options = angular.extend({container: $element[0]}, $attrs);
             var wavesurfer = WaveSurfer.create(options);
 
             if ($attrs.url) {
                 wavesurfer.load($attrs.url, $attrs.data || null);
             }
 
-            $scope.$emit('wavesurferInit', {wavesurfer:wavesurfer, id: $attrs.audioId });
+            $scope.$emit('wavesurferInit', {wavesurfer: wavesurfer, id: $attrs.audioId});
+
         }
     };
-});
+}]);
 
 
 dndApp.controller('tableController', ['$scope', '$modal', function ($scope, $modal) {
@@ -191,10 +189,10 @@ dndApp.controller('tableController', ['$scope', '$modal', function ($scope, $mod
                 return tag.text.match(regexp);
             }
         ).sort(function (a, b) {
-                if (a < b) return -1;
-                if (a > b) return 1;
-                return 0;
-            });
+            if (a < b) return -1;
+            if (a > b) return 1;
+            return 0;
+        });
     };
 
     $scope.remove = function (enemy) {
@@ -208,11 +206,11 @@ dndApp.controller('tableController', ['$scope', '$modal', function ($scope, $mod
 
 }]);
 
-dndApp.directive('input', function() {
+dndApp.directive('input', function () {
     return {
         restrict: 'E',
         require: '?ngModel',
-        link: function(scope, element, attrs, ngModel) {
+        link: function (scope, element, attrs, ngModel) {
             if ('type' in attrs && attrs.type.toLowerCase() === 'range') {
                 ngModel.$parsers.push(parseFloat);
             }
@@ -220,120 +218,138 @@ dndApp.directive('input', function() {
     };
 });
 
-dndApp.controller('SoundBoardController', ['$scope', 'SoundService', function($scope,SoundService){
+dndApp.controller('SoundBoardController', ['$scope', 'SoundService','$modalInstance', function ($scope, SoundService,$modalInstance) {
     $scope.SoundService = SoundService;
 
     $scope.$on('wavesurferInit', function (e, options) {
         SoundService.initSound(options.id, options.wavesurfer);
     });
+
+
+    $scope.ok = function () {
+        $modalInstance.close($scope.activeEnemies);
+    };
 }]);
 
-dndApp.factory('SoundService', function($interval) {
-    var fadeout = [];
+dndApp.factory('SoundService', function ($interval, $http) {
 
-    var sounds = [
-        {
-            id: 0,
-            type: 'microphone',
-            title: 'Roaahrr',
-            src:'roar.wav',
-            source: 'http://freesound.org/people/dobroide/sounds/204980/',
-            volume: 0.5,
-            loop: false
-        },
-        {
-            id: 1,
-            type: 'music',
-            title: 'Medival',
-            src:'medival.wav',
-            source: 'http://freesound.org/people/Tristan_Lohengrin/sounds/319781/',
-            volume: 0.5,
-            loop: true
-        }
-    ];
     var audio = {};
+    var categories = [];
 
-    return {
-        sounds: sounds,
+    var configuration = {
+        sounds: [],
         start: startSound,
         toggle: toggleSound,
         stop: stopSound,
         volume: changeVolume,
         paused: isPaused,
-        initSound: initSound
+        initSound: initSound,
+        getCategories: getCategories,
+        isInitialized: isInitialized
     };
 
-    function initSound(sound, wavesurfer){
+    function getCategories() {
+        return categories;
+    }
+
+    function isInitialized(sound) {
+        return audio.hasOwnProperty(sound);
+    }
+
+    $http.get('inc/sounds.php').success(function (data) {
+        data.forEach(function (a) {
+            a.volume = 0.5;
+            a.pinned = false;
+            configuration.sounds.push(a);
+            if (!categories.includes(a.category)) {
+                categories.push({
+                    "name": a.category,
+                    "filter": false
+                });
+            }
+        });
+    });
+
+    var fadeout = [];
+
+    return configuration;
+
+    function initSound(sound, wavesurfer) {
         audio[sound] = wavesurfer;
+        audio[sound].setVolume(configuration.sounds[sound].volume);
 
         wavesurfer.on('finish', function () {
-            if(sounds[sound].loop){
+            if (configuration.sounds[sound].loop) {
                 audio[sound].seekTo(0);
                 audio[sound].play();
             }
         });
     }
 
+    function soundReady(sound) {
 
-    function startSound(sound){
-        if (!audio[sound]){
+    }
+
+
+    function startSound(sound) {
+        if (!audio[sound]) {
             return;
         }
         audio[sound].pause();
         audio[sound].seekTo(0);
-        audio[sound].play();
     }
 
-    function toggleSound(sound){
-        if(isPaused(sound)){
+    function toggleSound(sound) {
+        if (isPaused(sound)) {
             audio[sound].play();
-        }else{
+        } else {
             audio[sound].pause();
         }
     }
 
-    function stopSound(sound){
-        fadeout[sound] = $interval(function(){
-            if(audio[sound].backend.getVolume() <= 0.01){
-                $interval.cancel(fadeout);
+    function stopSound(sound) {
+        $interval.cancel(fadeout[sound]);
+        fadeout[sound] = $interval(function () {
+            if (audio[sound].backend.getVolume() <= 0.01) {
+                $interval.cancel(fadeout[sound]);
                 audio[sound].setVolume(0);
                 audio[sound].pause();
                 audio[sound].seekTo(0);
-            }else{
-                audio[sound].setVolume(audio[sound].backend.getVolume()*0.95) ;
+            } else {
+                audio[sound].setVolume(audio[sound].backend.getVolume() * 0.95);
             }
-            sounds[sound].volume = audio[sound].backend.getVolume();
-        },42);
+            configuration.sounds[sound].volume = audio[sound].backend.getVolume();
+        }, 42);
     }
 
-    function changeVolume(sound){
+    function changeVolume(sound) {
         $interval.cancel(fadeout[sound]);
-        audio[sound].setVolume(sounds[sound].volume);
+        audio[sound].setVolume(configuration.sounds[sound].volume);
     }
 
-    function isPaused(sound){
+    function isPaused(sound) {
         return !audio[sound].isPlaying();
     }
 });
 
-dndApp.filter('secondsToDateTime', function() {
-    return function(seconds) {
-        return new Date(0,0,0,0,0,0,0).setSeconds(seconds);
+dndApp.filter('secondsToDateTime', function () {
+    return function (seconds) {
+        return new Date(0, 0, 0, 0, 0, 0, 0).setSeconds(seconds);
     };
 });
 
 dndApp.controller('SettingsController', ['$scope', '$modalInstance', 'enemyTypes', function ($scope, $modalInstance, enemyTypes) {
 
     $scope.enemyTypes = [
-        new Enemy("Spinne", 9, 10, [],"1w6"),
-        new Enemy("Sarazene", 15, 10, [],"2+1w6"),
+        new Enemy("Spinne", 9, 10, [], "1w6"),
+        new Enemy("Sarazene", 15, 10, [], "2+1w6"),
         new Enemy("Ork", 15, 20, [], "1+1w8"),
         new Enemy("Goblin", 10, 10, [], "1+1w4"),
         new Enemy("Untoter", 25, 0, [], "2+1w4"),
         new Enemy("Kämpf", 40, 40, [], "5+2w4"),
         new Enemy("Dreyan", 30, 30, [], "3w4"),
         new Enemy("Riesenspinne", 60, 40, [], "3+1w8"),
-        new Enemy("Drache", 150, 100, [], "-") ,
+        new Enemy("Drache", 150, 100, [], "-"),
         new Enemy("Krieger des Grafen", 15, 10, [], "2+1w6"),
         new Enemy("Golem", 30, 0, [], "2*(2+1w6)"),
         new Enemy("Troll", 30, 20, [], "2+2w6")
@@ -377,6 +393,13 @@ dndApp.controller('SettingsController', ['$scope', '$modalInstance', 'enemyTypes
         $modalInstance.dismiss('cancel');
     };
 }]);
+
+dndApp.directive('music', function () {
+    return {
+        templateUrl: 'music.html'
+    };
+});
+
 
 function Enemy(name, lp, ap, tags, damage) {
     this.name = name;

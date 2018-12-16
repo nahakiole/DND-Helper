@@ -48,6 +48,40 @@
 
 </head>
 <body data-ng-app="dndApp" data-ng-controller="tableController">
+
+<script type="text/ng-template" id="music.html">
+
+
+    <h4>{{sound.title}} <br>
+        <small>{{sound.category}}</small>
+    </h4>
+
+    <div class="btn-group btn-group-sm">
+        <button class="btn btn-primary" data-ng-click="SoundService.start(sound.id)"><span
+                class="fa fa-fw fa-step-backward"></span></button>
+        <button class="btn btn-default" data-ng-click="SoundService.toggle(sound.id)"><span
+                class="fa fa-fw fa-play" ng-show="SoundService.paused(sound.id)"></span><span
+                class="fa fa-fw fa-pause" ng-hide="SoundService.paused(sound.id)"></span></button>
+        <button class="btn btn-danger" data-ng-click="SoundService.stop(sound.id)"><span
+                class="fa fa-fw fa-stop"></span></button>
+        <button class="btn btn-primary" ng-model="sound.loop" uib-btn-checkbox><span
+                class="fa fa-fw fa-repeat"></span></button>
+        <button class="btn btn-primary" ng-model="sound.pinned" uib-btn-checkbox><span
+                class="fa fa-fw fa-thumb-tack"></span></button>
+    </div>
+    <div class="pull-right soundpanel-volume">
+        <div class="fa fa-volume-up"></div>
+        <input type="range" min="0" max="1" step="any" ng-model="sound.volume"
+               ng-change="SoundService.volume(sound.id)" orient="horizontal">
+        <div class="fa fa-volume-off"></div>
+    </div>
+    <div class="clearfix"></div>
+    <ng-wavesurfer url="{{ sound.src }}" wave-color="#337ab7" progress-color="#23527c" height="30"
+                   audio-id="{{sound.id}}">
+    </ng-wavesurfer>
+    <small>{{sound.length}}</small>
+</script>
+
 <script type="text/ng-template" id="settings.html">
     <div class="modal-header">
         <h3 class="modal-title">Gegner</h3>
@@ -87,28 +121,25 @@
     <div class="modal-body">
 
         <div class="row">
-            <div class="col-md-3 soundpanel" data-ng-repeat="sound in SoundService.sounds">
-                <div class="pull-right soundpanel-volume">
-                    <div class="fa fa-volume-up"></div>
-                    <input type="range" min="0" max="1" step="any" ng-model="sound.volume" ng-change="SoundService.volume(sound.id)" orient="vertical">
-                    <div class="fa fa-volume-off"></div>
-                </div>
-                <span class="fa fa-4x" ng-class="'fa-' + sound.type "></span>
-                <h4>{{sound.title}}</h4>
-                <div class="btn-group btn-group-sm">
-                    <button class="btn btn-primary" data-ng-click="SoundService.start(sound.id)"><span class="fa fa-fw fa-step-forward"></span></button>
-                    <button class="btn btn-default" data-ng-click="SoundService.toggle(sound.id)"><span class="fa fa-fw fa-play" ng-show="SoundService.paused(sound.id)"></span><span class="fa fa-fw fa-pause" ng-hide="SoundService.paused(sound.id)"></span></button>
-                    <button class="btn btn-danger" data-ng-click="SoundService.stop(sound.id)"><span class="fa fa-fw fa-stop"></span></button>
-                    <button class="btn btn-primary" ng-model="sound.loop" uib-btn-checkbox><span class="fa fa-fw fa-repeat"></span></button>
-                </div>
-                <div class="clearfix"></div>
-                <ng-wavesurfer url="sounds/{{ sound.src }}" wave-color="#337ab7" progress-color="#23527c" height="30" audio-id="{{sound.id}}">
-                </ng-wavesurfer>
+            <div class="col-md-12 clearfix">
+                <h4>Sounds</h4>
             </div>
+            <div class="col-md-12 category">
+                <div class="btn-group" role="group" aria-label="...">
+                    <button class="btn btn-primary" ng-model="category.active" uib-btn-checkbox
+                            data-ng-repeat="category in SoundService.getCategories()">
+                        {{category.name}}
+                    </button>
+                </div>
+            </div>
+
+            <music class="col-md-3 soundpanel"
+                   data-ng-repeat="sound in SoundService.sounds | orderBy:['-pinned','category']" ng-class="{'pinned': sound.pinned}"></music>
+
         </div>
     </div>
     <div class="modal-footer">
-        <button class="btn btn-primary" type="button" data-ng-click="ok()">Speichern</button>
+        <button class="btn btn-primary" type="button" data-ng-click="ok()">Schliessen</button>
     </div>
 </script>
 <!--[if lt IE 8]>
@@ -196,10 +227,11 @@
                 <div class="col-md-5 text-right">
                     Runde {{ round }}
                     <button type="button" name="button" class="btn btn-default" data-ng-click="openSettings()">
-                        <i class="fa fa-cog"></i>
+                        <i class="fa fa-cog"></i> Monster
                     </button>
                     <button type="button" name="button" class="btn btn-default" data-ng-click="reset()">
-                        <i class="fa fa-trash-o"></i></button>
+                        <i class="fa fa-trash-o"></i> Reset
+                    </button>
                     <button type="button" name="button" class="btn btn-default" data-ng-click="openSound()">
                         <i class="fa fa-music"></i>
                     </button>
