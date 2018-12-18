@@ -59,9 +59,9 @@
     <div class="btn-group btn-group-sm">
         <button class="btn btn-primary" data-ng-click="SoundService.start(sound.id)"><span
                 class="fa fa-fw fa-step-backward"></span></button>
-        <button class="btn btn-success" ng-hide="SoundService.paused(sound.id)" data-ng-click="SoundService.toggle(sound.id)"><span
+        <button class="btn btn-success" ng-show="SoundService.paused(sound.id)" data-ng-click="SoundService.toggle(sound.id)"><span
                 class="fa fa-fw fa-play" ></span></button>
-        <button class="btn btn-danger" ng-show="SoundService.paused(sound.id)" data-ng-click="SoundService.toggle(sound.id)"><span
+        <button class="btn btn-danger" ng-hide="SoundService.paused(sound.id)" data-ng-click="SoundService.toggle(sound.id)"><span
                 class="fa fa-fw fa-pause"></span></button>
         <button class="btn btn-default" data-ng-click="SoundService.stop(sound.id)"><span
                 class="fa fa-fw fa-stop"></span></button>
