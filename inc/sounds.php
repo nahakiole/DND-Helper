@@ -71,7 +71,7 @@ try {
 				$sounds[] = [
 					'id'       => $id ++,
 					'category' => rawurldecode( $category ),
-					'title'    => $info['comments']['title'][0],
+					'title'    => (isset($info['comments']['title'][0])?$info['comments']['title'][0]:$item),
 					'length'   => format_duration( round( $info['playtime_seconds'], 1 ) ),
 					'loop'     => strpos( $item, '_loop' ) !== false,
 					'src'      => convert_to_url( $dir_path . $item )
