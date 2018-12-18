@@ -218,7 +218,7 @@ dndApp.directive('input', function () {
     };
 });
 
-dndApp.controller('SoundBoardController', ['$scope', 'SoundService','$modalInstance', function ($scope, SoundService,$modalInstance) {
+dndApp.controller('SoundBoardController', ['$scope', 'SoundService', '$modalInstance', '$filter', function ($scope, SoundService, $modalInstance, $filter) {
     $scope.SoundService = SoundService;
 
     $scope.$on('wavesurferInit', function (e, options) {
@@ -229,9 +229,26 @@ dndApp.controller('SoundBoardController', ['$scope', 'SoundService','$modalInsta
     $scope.ok = function () {
         $modalInstance.close($scope.activeEnemies);
     };
+
+    $scope.filterByCategory = function (item) {
+        var categories = SoundService.getCategories();
+        if (!$filter('filter')(categories, {'active': true}).length > 0 || item.pinned) {
+            return item;
+        }
+        var filter = false;
+        categories.forEach(function (category) {
+            if (category.active == true && item.category == category.name) {
+                filter = true;
+            }
+        });
+        if (filter) {
+            return item;
+        }
+        return false;
+    };
 }]);
 
-dndApp.factory('SoundService', function ($interval, $http) {
+dndApp.factory('SoundService', function ($interval, $http, $filter) {
 
     var audio = {};
     var categories = [];
@@ -261,7 +278,7 @@ dndApp.factory('SoundService', function ($interval, $http) {
             a.volume = 0.5;
             a.pinned = false;
             configuration.sounds.push(a);
-            if (!categories.includes(a.category)) {
+            if (!$filter('filter')(categories, {'name': a.category}).length > 0) {
                 categories.push({
                     "name": a.category,
                     "filter": false
