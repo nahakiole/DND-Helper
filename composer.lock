@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "089c8365b30510dbb06ab8bccf1928c3",
+    "content-hash": "a5bb4c42e034e445ec6cfba0fd50bc87",
     "packages": [
         {
             "name": "james-heinrich/getid3",
@@ -68,67 +68,19 @@
                 "tags"
             ],
             "time": "2018-12-05T06:44:07+00:00"
-        },
-        {
-            "name": "vistag/human-readable",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/VistagGit/human-readable.git",
-                "reference": "86cd1a1366e7867e8de040c0a58ddff131b5112d"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/VistagGit/human-readable/zipball/86cd1a1366e7867e8de040c0a58ddff131b5112d",
-                "reference": "86cd1a1366e7867e8de040c0a58ddff131b5112d",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^5.4 || ^7.0"
-            },
-            "require-dev": {
-                "jakub-onderka/php-parallel-lint": "^0.9.0",
-                "phpunit/phpunit": "^4.7|^5.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Vistag\\HumanReadable\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Pavel Rorecek",
-                    "email": "pavel@rorecek.com",
-                    "homepage": "https://laravelist.com"
-                }
-            ],
-            "description": "Convert numbers and seconds to the human readable format",
-            "homepage": "https://github.com/VistagGit/human-readable",
-            "keywords": [
-                "human-readable",
-                "numbers",
-                "readable",
-                "seconds"
-            ],
-            "time": "2018-01-29T20:44:37+00:00"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "james-heinrich/getid3": 20,
-        "vistag/human-readable": 20
+        "james-heinrich/getid3": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "ext-json": "*"
+        "ext-json": "*",
+        "ext-gd": "*"
     },
     "platform-dev": []
 }

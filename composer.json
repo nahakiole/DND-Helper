@@ -13,6 +13,7 @@
   ],
   "require": {
     "james-heinrich/getid3": "^1.9@dev",
-    "ext-json": "*"
+    "ext-json": "*",
+    "ext-gd": "*"
   }
 }
