@@ -22,9 +22,9 @@
             padding-bottom: 20px;
         }
     </style>
-    <link href='http://fonts.googleapis.com/css?family=Neuton' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Neuton' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/main.css?v=2">
 
     <script src="js/vendor/fastclick.js"></script>
     <script>
@@ -44,7 +44,7 @@
     <script type="text/javascript" src="js/vendor/wavesurfer.min.js"></script>
 
 
-    <script src="js/main.js"></script>
+    <script src="js/main.js?v=2"></script>
 
 </head>
 <body data-ng-app="dndApp" data-ng-controller="tableController">
@@ -122,9 +122,15 @@
     <div class="modal-body">
 
         <div class="row">
-            <div class="col-md-12 clearfix">
-                <h4>Sounds</h4>
+            <div class="col-md-12 text-center" ng-show="SoundService.sounds.length == 0">
+                <br>
+                <br>
+                <br>
+                <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
+                <h3>Laden</h3>
+                <br>
             </div>
+
             <div class="col-md-12 category">
                 <div class="btn-group" role="group" aria-label="...">
                     <button class="btn btn-primary" ng-model="category.active" uib-btn-checkbox
@@ -135,7 +141,7 @@
             </div>
 
             <music class="col-md-3 soundpanel"
-                   data-ng-repeat="sound in SoundService.sounds | orderBy:['-pinned','category']" ng-class="{'pinned': sound.pinned}"></music>
+                   data-ng-repeat="sound in SoundService.sounds | orderBy:['-pinned','category'] | filter: filterByCategory" ng-class="{'pinned': sound.pinned}"></music>
 
         </div>
     </div>
